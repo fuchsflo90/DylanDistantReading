@@ -1,0 +1,21 @@
+{
+    "partei_a": {
+        "name": "fp\u00f6_XXV",
+        "tokens": 641399,
+        "sentences": 30478,
+        "corpus": "./corpus/fp\u00f6_XXV.txt",
+        "pos": "./corpus/POS_fp\u00f6_XXV.txt"
+    },
+    "partei_b": {
+        "name": "gr\u00fcne_XXV",
+        "tokens": 583710,
+        "sentences": 28031,
+        "corpus": "./corpus/gr\u00fcne_XXV.txt",
+        "pos": "./corpus/POS_gr\u00fcne_XXV.txt"
+    },
+    "general": {
+        "tagger": "Stanford NLP German-DEWAC",
+        "gp": "XXV",
+        "beginn": "16.12.2013"
+    }
+}
