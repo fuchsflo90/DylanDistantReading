@@ -2,6 +2,7 @@
 public class Configurations {
 	// Debug
 		// public static final boolean debugNotationen = true;
+		//TEST
 		public static final boolean debugMetaInfo = true;
 		public static final boolean showExceptions = false;
 		public static final boolean debugHTMLdocDOM = true;
