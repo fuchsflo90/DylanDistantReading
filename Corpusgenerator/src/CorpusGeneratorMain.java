@@ -7,7 +7,6 @@ public class CorpusGeneratorMain {
 
 	public static void main(String[] args) throws IOException,
 			InterruptedException {
-
 		reader = new InputFileReader(".htm");
 		try {
 			reader.loadFromFile();
