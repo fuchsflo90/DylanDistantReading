@@ -74,6 +74,7 @@ class NgramFinder:
     @staticmethod
     def _clean_text(text):
         #text = [w.lower() for w in text]
+        #punctuation = re.compile(r'[.?!,„":;`€$\'()#|0-9]')
         punctuation = re.compile(r'[.?!,„":;`€$\'()#|0-9]')
         return [punctuation.sub("", token) for token in text]
 

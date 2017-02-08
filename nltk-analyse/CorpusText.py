@@ -8,6 +8,7 @@ class CorpusText(object):
 
     @staticmethod
     def count_tokens(text):
+        #print(text)
         return len(text)
 
     @staticmethod
@@ -17,10 +18,10 @@ class CorpusText(object):
     @staticmethod
     def _apply_stopwords(text):
         text = [w.lower() for w in text]
-        ext_stopwords = CorpusText._read_external_stopwords()
-        filter = nltk.corpus.stopwords.words('german')
+        #ext_stopwords = CorpusText._read_external_stopwords()
+        filter = nltk.corpus.stopwords.words('english')
         filter2 = (',', '.', '!', '?', ':', ';', '\xe2\x80\x94')
-        text = [w for w in text if w not in ext_stopwords]
+        #text = [w for w in text if w not in ext_stopwords]
         text = [w for w in text if w not in filter]
         text = [w for w in text if w not in filter2]
         return text
@@ -131,8 +132,10 @@ class CorpusText(object):
     @staticmethod
     def calculate_significant_bigram_differences(stopwords, corpus_a, corpus_b):
         if stopwords:
-            bigrams_a = NgramFinder.find_bigrams(CorpusText._apply_stopwords(NgramFinder._clean_text(corpus_a)))
-            bigrams_b = NgramFinder.find_bigrams(CorpusText._apply_stopwords(NgramFinder._clean_text(corpus_b)))
+            #bigrams_a = NgramFinder.find_bigrams(CorpusText._apply_stopwords(NgramFinder._clean_text(corpus_a)))
+            #bigrams_b = NgramFinder.find_bigrams(CorpusText._apply_stopwords(NgramFinder._clean_text(corpus_b)))
+            bigrams_a = NgramFinder.find_bigrams(CorpusText._apply_stopwords(corpus_a))
+            bigrams_b = NgramFinder.find_bigrams(CorpusText._apply_stopwords(corpus_b))
         else:
             bigrams_a = NgramFinder.find_bigrams(NgramFinder._clean_text(corpus_a))
             bigrams_b = NgramFinder.find_bigrams(NgramFinder._clean_text(corpus_b))
