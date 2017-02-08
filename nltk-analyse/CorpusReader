@@ -4,7 +4,7 @@ __author__ = 'Colin Sippl'
 from bs4 import BeautifulSoup
 
 #Name der Korpusdatei
-file_name = "Corpus_Dylan524.xml"
+file_name = "Corpus_Dylan452.xml"
 #Pfad der Korpusdatei
 corpus_path = './corpus/'
 
