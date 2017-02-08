@@ -50,7 +50,8 @@ fabric.properties
 
 # *.iml
 # modules.xml
-# .idea/misc.xml
+.idea/misc.xml
+.idea/nltk-analyse.iml
 # *.ipr
 
 # End of https://www.gitignore.io/api/pycharm
