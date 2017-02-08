@@ -30,12 +30,12 @@ public class DataSearcher {
 		public void setDocumentToReadFrom(Document doc, String filePath) {
 			this.doc = doc;
 			this.filePath = filePath;
-			if (Configurations.debugHTMLdocDOM) {
-				
-				for( Element element : doc.getElementsByAttributeValue("style", "display:none") )
-				{
-				    element.remove();
-				}
+	//		if (Configurations.debugHTMLdocDOM) {
+	//		
+	//			for( Element element : doc.getElementsByAttributeValue("style", "display:none") )
+	//			{
+	//			    element.remove();
+	//			}
 				
 				
 //				//http://stackoverflow.com/questions/5640334/how-do-i-preserve-line-breaks-when-using-jsoup-to-convert-html-to-plain-text
@@ -47,7 +47,7 @@ public class DataSearcher {
 //						.replaceAll("\\*", "");
 //						//.replaceAll("(\\s{2,})"," ") + " ";
 //				//System.out.println(dokText);
-			}
+	//		}
 		}
 
 		public void extractData() {
@@ -106,7 +106,7 @@ public class DataSearcher {
 			}
 			// System.out.println("Der Author: " + author );
 			
-			corpus.newSong(title, text, date, album, author);
+			corpus.newSong(title, text, date, album, author, filePath);
 		}
 		
 		//TODO
@@ -116,9 +116,9 @@ public class DataSearcher {
 			cleanText = Jsoup.clean(uncleanText, "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false))
 					.replaceAll("&lt;br&gt;", "")
 					.replaceAll("\\"+Character.toString('\u00AD'), "")
-					.replaceAll("([N,n]ationalrat,.X.*)(\\s*.*\\s*)(.*[S,s]eite.\\d*)", "")
 					.replaceAll("(<|>)", "")
-					.replaceAll("\\*", "");
+					.replaceAll("\\*", "")
+					.replaceAll("&amp;amp;", "");
 
 			return cleanText;
 		}
@@ -202,6 +202,10 @@ public class DataSearcher {
 				}
 				return "";
 			}
+		}
+		
+		public String getFilePath(int index){
+			return corpus.getFilePath(index);
 		}
 
 		private Matcher findeTextausschnitte(String regex, String textdatenRoh) {

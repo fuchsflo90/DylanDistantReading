@@ -38,9 +38,9 @@ public class Songs {
 			}
 		}
 
-		public void newSong(String title, String text, String date, String album, String author){
+		public void newSong(String title, String text, String date, String album, String author, String filePath){
 			int songId = songs.size()+1;
-			songs.add(new Song(songId, title, text, date, album, author));
+			songs.add(new Song(songId, title, text, date, album, author, filePath));
 		}
 		
 		public String gebeParlamentsname() {
@@ -90,6 +90,10 @@ public class Songs {
 			return songs.get(i).getAuthor();
 		}
 		
+		public String getFilePath(int i){
+			return songs.get(i).getFilePath();
+		}
+		
 		
 		class Song {
 			
@@ -99,14 +103,16 @@ public class Songs {
 			String date;
 			String album;
 			String author;
+			String filePath;
 			
-			Song (int id, String title, String text, String date, String album, String author){
+			Song (int id, String title, String text, String date, String album, String author, String filePath){
 				this.id = id;
 				this.title = title;
 				this.text = text;
 				this.date = date;
 				this.album = album;
 				this.author = author;
+				this.filePath = filePath;
 			}
 			
 			int getId(){
@@ -126,6 +132,9 @@ public class Songs {
 			}
 			String getAuthor(){
 				return author;
+			}
+			String getFilePath(){
+				return filePath;
 			}
 		}
 }

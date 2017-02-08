@@ -48,7 +48,7 @@ public class CorpusGenerator {
 
 		}
 		
-		public void createCorpusfileBody(int songId, String songTitle, String songText, String releaseDate, String songAlbum, String songAuthor){
+		public void createCorpusfileBody(int songId, String songTitle, String songText, String releaseDate, String songAlbum, String songAuthor, String filePath){
 			
 			Element song = doc.createElement("song");
 			rootElement.appendChild(song);
@@ -76,6 +76,10 @@ public class CorpusGenerator {
 			Element text = doc.createElement("text");
 			text.appendChild(doc.createTextNode(songText));
 			song.appendChild(text);
+			
+			if(songText.equals("")){
+				System.out.println("###FEHLERHAFTE DATEI: " + filePath);
+			}
 			
 		}
 

@@ -37,7 +37,7 @@ public class CorpusGeneratorMain {
 		}
 		for (int y = 0; y < searcher.getNumberOfSongs(); y++) {
 			generator.createCorpusfileBody(searcher.getId(y), searcher.getTitle(y),
-					searcher.getText(y), searcher.getDate(y), searcher.getAlbum(y), searcher.getAuthor(y)); 
+					searcher.getText(y), searcher.getDate(y), searcher.getAlbum(y), searcher.getAuthor(y), searcher.getFilePath(y)); 
 		}
 		
 		generator.generateCorpusFile("Corpus_Dylan" + searcher.getNumberOfSongs() );
