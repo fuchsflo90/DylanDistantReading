@@ -1,22 +1,14 @@
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.safety.Whitelist;
 
 public class DataSearcher {
 
 		// Dokument roh
-		private String docText;
 		private Document doc;
-		private Element songText;
 
 		// Extraktion Metadaten
 		private String filePath;
@@ -30,30 +22,9 @@ public class DataSearcher {
 		public void setDocumentToReadFrom(Document doc, String filePath) {
 			this.doc = doc;
 			this.filePath = filePath;
-	//		if (Configurations.debugHTMLdocDOM) {
-	//		
-	//			for( Element element : doc.getElementsByAttributeValue("style", "display:none") )
-	//			{
-	//			    element.remove();
-	//			}
-				
-				
-//				//http://stackoverflow.com/questions/5640334/how-do-i-preserve-line-breaks-when-using-jsoup-to-convert-html-to-plain-text
-//				docText = Jsoup.clean(doc.html(), "", Whitelist.none(), new Document.OutputSettings().prettyPrint(false))
-//						.replaceAll("&nbsp;", " ")
-//						.replaceAll("\\"+Character.toString('\u00AD'), "")
-//						.replaceAll("([N,n]ationalrat,.X.*)(\\s*.*\\s*)(.*[S,s]eite.\\d*)", "")
-//						.replaceAll("(<|>)", "")
-//						.replaceAll("\\*", "");
-//						//.replaceAll("(\\s{2,})"," ") + " ";
-//				//System.out.println(dokText);
-	//		}
 		}
 
 		public void extractData() {
-			//doc.normalise();
-			//dokText = doc.html();
-			// sucheSitzungsStart();
 			generateSongList(doc);
 
 		}
@@ -118,7 +89,8 @@ public class DataSearcher {
 					.replaceAll("\\"+Character.toString('\u00AD'), "")
 					.replaceAll("(<|>)", "")
 					.replaceAll("\\*", "")
-					.replaceAll("&amp;amp;", "");
+					.replaceAll("&amp;", "");
+			
 
 			return cleanText;
 		}
@@ -128,17 +100,6 @@ public class DataSearcher {
 			return corpus.getNumberOfSongs();
 		}
 
-		public String gebeProtokolldatum() {
-			return corpus.gebeZeitraum();
-		}
-
-		public String gebeSitzungsnummer() {
-			return corpus.gebeSitzungsnummer();
-		}
-
-		public String gebePeriode() {
-			return corpus.gebeRegierungsperiode();
-		}
 		
 		public int getId(int index) {
 			try {
@@ -214,11 +175,4 @@ public class DataSearcher {
 			return matcher;
 		}
 		
-		public void schreibeDokument() throws IOException{
-			 File newDoc = new File("./outDoc/" + corpus.gebeRegierungsperiode() + "_" + corpus.gebeSitzungsnummer()
-			 + "_" + corpus.gebeZeitraum() + ".html");
-			 OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(newDoc), "utf-8");
-			 out.write(doc.html());
-			 out.close();
-		}
 }

@@ -2,10 +2,6 @@ import java.util.ArrayList;
 
 public class Songs {
 	// Metadaten
-		private String parlamentsname;
-		private String sitzungsnummer;
-		private String regierungsperiode;
-		private String zeitraum;
 		private String originaldatei;
 		// Stimmungsannotationen Liste
 		private ArrayList<Song> songs;
@@ -14,49 +10,9 @@ public class Songs {
 			songs = new ArrayList<Song>();
 		}
 
-		public void speichereMetadaten(String parlamentsname,
-				String sitzungsnummer, String regierungsperiode, String zeitraum,
-				String originaldatei) {
-
-			this.parlamentsname = parlamentsname;
-			this.sitzungsnummer = sitzungsnummer;
-			this.regierungsperiode = regierungsperiode;
-			this.zeitraum = zeitraum;
-			this.originaldatei = originaldatei;
-
-			if (Configurations.debugMetaInfo) {
-				System.out.println("_____________________Metainformationen...");
-				System.out.println("_____________________|_____________________ "
-						+ parlamentsname);
-				System.out.println("_____________________|_____________________ "
-						+ sitzungsnummer + ". Sitzung der " + regierungsperiode
-						+ ". Gesetzgebungsperiode");
-				System.out.println("_____________________|_____________________ "
-						+ "am " + zeitraum);
-				System.out.println("_____________________|_____________________ "
-						+ "Datei: " + originaldatei);
-			}
-		}
-
 		public void newSong(String title, String text, String date, String album, String author, String filePath){
 			int songId = songs.size()+1;
 			songs.add(new Song(songId, title, text, date, album, author, filePath));
-		}
-		
-		public String gebeParlamentsname() {
-			return parlamentsname;
-		}
-
-		public String gebeSitzungsnummer() {
-			return sitzungsnummer;
-		}
-
-		public String gebeRegierungsperiode() {
-			return regierungsperiode;
-		}
-
-		public String gebeZeitraum() {
-			return zeitraum;
 		}
 
 		public String gebeOriginalDateifad() {
