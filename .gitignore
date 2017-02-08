@@ -62,52 +62,52 @@ local.properties
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 
 # User-specific stuff:
-.idea/workspace.xml
-.idea/tasks.xml
+nltk-analyse/.idea/workspace.xml
+nltk-analyse/.idea/tasks.xml
 
 # Sensitive or high-churn files:
-.idea/dataSources/
-.idea/dataSources.ids
-.idea/dataSources.xml
-.idea/dataSources.local.xml
-.idea/sqlDataSources.xml
-.idea/dynamic.xml
-.idea/uiDesigner.xml
+nltk-analyse/.idea/dataSources/
+nltk-analyse/.idea/dataSources.ids
+nltk-analyse/.idea/dataSources.xml
+nltk-analyse/.idea/dataSources.local.xml
+nltk-analyse/.idea/sqlDataSources.xml
+nltk-analyse/.idea/dynamic.xml
+nltk-analyse/.idea/uiDesigner.xml
 
 # Gradle:
-.idea/gradle.xml
-.idea/libraries
+nltk-analyse/.idea/gradle.xml
+nltk-analyse/.idea/libraries
 
 # Mongo Explorer plugin:
-.idea/mongoSettings.xml
+nltk-analyse/.idea/mongoSettings.xml
 
 ## File-based project format:
-*.iws
+nltk-analyse/*.iws
 
 ## Plugin-specific files:
 
 # IntelliJ
-/out/
+nltk-analyse/out/
 
 # mpeltonen/sbt-idea plugin
-.idea_modules/
+nltk-analyse/.idea_modules/
 
 # JIRA plugin
-atlassian-ide-plugin.xml
+nltk-analyse/atlassian-ide-plugin.xml
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
-com_crashlytics_export_strings.xml
-crashlytics.properties
-crashlytics-build.properties
-fabric.properties
+nltk-analyse/com_crashlytics_export_strings.xml
+nltk-analyse/crashlytics.properties
+nltk-analyse/crashlytics-build.properties
+nltk-analyse/fabric.properties
 
 ### PyCharm Patch ###
 # Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
 
 # *.iml
 # modules.xml
-.idea/misc.xml
-.idea/nltk-analyse.iml
+nltk-analyse/.idea/misc.xml
+nltk-analyse/.idea/nltk-analyse.iml
 # *.ipr
 
 # End of https://www.gitignore.io/api/pycharm
