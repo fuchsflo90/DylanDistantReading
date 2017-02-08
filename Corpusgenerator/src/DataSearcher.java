@@ -31,7 +31,7 @@ public class DataSearcher {
 		
 		private String extractDate(String input){
 			String output = "";
-			Matcher match = findeTextausschnitte("\\((.*)\\)", input);
+			Matcher match = findeTextausschnitte("\\((\\d{4})\\)", input);
 			if (match.find()){
 				//output = input.substring(match.end(), input.length()-1);
 				output = match.group(1);

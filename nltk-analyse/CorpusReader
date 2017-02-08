@@ -14,6 +14,7 @@ def main():
     reader.parse_file()
     reader.print_every_song()
     reader.print_every_title()
+    reader.print_every_date(1960, 1970)
 
 class CorpusReader(object):
     def __init__(self, file_name, corpus_path):
@@ -27,6 +28,13 @@ class CorpusReader(object):
 
     def parse_file(self):
         self.soup = BeautifulSoup(self.xml_file, 'xml')
+
+    def print_every_date(self, start, end):
+        for text_element in self.soup.findAll('date', text=True):
+            #print(text_element)
+            text_element = int(text_element.text)
+            if (text_element >= start) & (text_element <= end):
+                print(text_element)
 
     def print_every_song(self):
         for text_element in self.soup.findAll('text', text=True):
