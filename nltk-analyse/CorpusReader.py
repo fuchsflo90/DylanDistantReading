@@ -4,6 +4,7 @@ __author__ = 'Colin Sippl'
 from bs4 import BeautifulSoup
 from CorpusText import CorpusText
 from CSVwriter import CSVwriter
+from nltk.corpus.reader import TaggedCorpusReader
 import nltk
 import re
 
@@ -20,24 +21,22 @@ def main():
     #reader.print_every_title()
     #reader.print_every_date(1960, 1970)
 
-    untersuchungsbereich = reader.select_songs_from_author("Bob Dylan", 1960, 1970)
-    untersuchungsbereich = re.sub('[.?!,„":;`€$\'()#|0-9]', '', untersuchungsbereich)
-    untersuchungsbereich = nltk.word_tokenize(untersuchungsbereich)
-    print(untersuchungsbereich)
-    kontrollbereich = reader.select_songs_from_author("Bob Dylan", 1971, 2020)
-    kontrollbereich = re.sub('[.?!,„":;`€$\'()#|0-9]', '', kontrollbereich)
-    kontrollbereich = nltk.word_tokenize(kontrollbereich)
+    untersuchungsbereich = reader.select_taggedsongs_from_author("Bob Dylan", 1960, 1970)
+    #print(untersuchungsbereich)
+    kontrollbereich = reader.select_taggedsongs_from_author("Bob Dylan", 1971, 2020)
+    #kontrollbereich = nltk.word_tokenize(kontrollbereich)
+
 
     # Berechne Anzahl der Tokens pro Korpus-Text
     length_a = CorpusText.count_tokens(untersuchungsbereich)
     length_b = CorpusText.count_tokens(kontrollbereich)
-
-    print(length_a)
-    print(length_b)
+    #print("Anzahl der Tokens des Untersuchungskorpus: " + str(length_a))
+    #print("Anzahl der Tokens des Untersuchungskorpus: " + str(len(CorpusText.pos_rank_absolut_freq(False, "dylan_int", untersuchungsbereich, "", "test"))))
+    #print("Anzahl der Tokens des Vergleichskorpus: " + str(length_b))
 
     # *****Stoppwortliste: JA
-    fredDist_a = CorpusText.word_rank_absolut_freq(True, "dylan_int", untersuchungsbereich, 'all_words')
-    fredDist_b = CorpusText.word_rank_absolut_freq(True, "dylan_rest", kontrollbereich, 'all_words')
+    fredDist_a = CorpusText.pos_rank_absolut_freq(True, "dylan_int", untersuchungsbereich, "",'all_words')
+    fredDist_b = CorpusText.pos_rank_absolut_freq(True, "dylan_rest", kontrollbereich, "",'all_words')
 
     difvals = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_b, length_a, length_b)
     CSVwriter.write_text_differences("significant_text_differences", "dylan_int", True, 300, "words", difvals, 'all_words')
@@ -46,11 +45,24 @@ def main():
                                                          length_a, length_b)
     CSVwriter.write_text_differences("significant_text_differences", "dylan_rest", True, 300, "words", difvals, 'all_words')
 
-    # *****Stoppwortliste: JA
-    difvals = CorpusText.calculate_significant_bigram_differences(True, untersuchungsbereich, kontrollbereich)
-    CSVwriter.write_text_differences("significant_text_differences", "dylan_int", True, 300, "words", difvals, 'bigrams')
-    difvals = CorpusText.calculate_significant_bigram_differences(True, kontrollbereich, untersuchungsbereich)
-    CSVwriter.write_text_differences("significant_text_differences", "dylan_rest", True, 300, "words", difvals, 'bigrams')
+    #print([token[0] for token in untersuchungsbereich])
+
+    
+    #Signifikante Unterschiede der Worthäufigkeiten (Wortartenfilterung)
+    args = [('NN', 'nouns'),('NNP', 'proper_nouns'),('VB', 'verbs'),('JJ', 'adjectives')]
+
+    for arg in args:
+        #with stopwords
+        fredDist_a = CorpusText.pos_rank_absolut_freq(True, "dylan_int", untersuchungsbereich, arg[0], arg[1])
+        fredDist_b = CorpusText.pos_rank_absolut_freq(True, "dylan_rest", kontrollbereich, arg[0], arg[1])
+        difvals2 = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_b, length_a, length_b)
+        CSVwriter.write_text_differences("significant_text_differences", "dylan_int", True, 300, "words", difvals2, arg[1])
+        # vice versa
+        difvals2 = CorpusText.calculate_significant_word_differences(fredDist_b, fredDist_a, length_b, length_a)
+        CSVwriter.write_text_differences("significant_text_differences", "dylan_rest", True, 300, "words", difvals2, arg[1])
+
+
+
 
 class CorpusReader(object):
     def __init__(self, file_name, corpus_path):
@@ -86,7 +98,23 @@ class CorpusReader(object):
         for title_element in self.soup.findAll('title', text=True):
             print(title_element.text)
 
-    def select_songs_from_author(self, author_name, date_start, date_end):
+    # def select_songs_from_author(self, author_name, date_start, date_end):
+    #     pattern = re.compile(" " + author_name + "  ")
+    #     text = ""
+    #     for song in self.soup.findAll('song'):
+    #         date = 0
+    #         if song.find("date", text=True) is not None:
+    #             date = int(song.find("date", text=True).text)
+    #         if (date >= date_start) & (date <= date_end):
+    #             #print("++++++++++++++++++++++++++++++++++++++++++++ " + str(date))
+    #             query = ""
+    #             if song.find("author", text=pattern) is not None:
+    #                 query = song.find("author", text=pattern).text
+    #             if author_name in query:
+    #                 text += " " + song.find("text", text=True).text
+    #     return text
+
+    def select_taggedsongs_from_author(self, author_name, date_start, date_end):
         pattern = re.compile(" " + author_name + "  ")
         text = ""
         for song in self.soup.findAll('song'):
@@ -94,14 +122,17 @@ class CorpusReader(object):
             if song.find("date", text=True) is not None:
                 date = int(song.find("date", text=True).text)
             if (date >= date_start) & (date <= date_end):
-                #print("++++++++++++++++++++++++++++++++++++++++++++ " + str(date))
+                # print("++++++++++++++++++++++++++++++++++++++++++++ " + str(date))
                 query = ""
                 if song.find("author", text=pattern) is not None:
                     query = song.find("author", text=pattern).text
                 if author_name in query:
                     text += " " + song.find("text", text=True).text
+        text = [nltk.tag.str2tuple(t) for t in text.split()]
         return text
 
+    def return_tagged_tokens(self):
+        return [item for sublist in self.pos_file for item in sublist]
 
 if __name__ == '__main__':
     print('This program is being run by itself')

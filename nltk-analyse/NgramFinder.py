@@ -25,9 +25,9 @@ args = [
     #N-Gramm-Typ, Länge, Extraktionsart, max. Anzahl, minimales Auftreten, Stoppwort-Verwendung
     #Extraktion der Bigramme
     #["bigram", bigram_measures.raw_freq, 300,  min_freq, True],
-    ["bigram", bigram_measures.likelihood_ratio, 300,  min_freq, True],
+    #["bigram", bigram_measures.likelihood_ratio, 300,  min_freq, True],
     ["bigram", bigram_measures.poisson_stirling, 300, min_freq, True],
-    ["bigram", bigram_measures.jaccard, 300,  min_freq, True],
+    #["bigram", bigram_measures.jaccard, 300,  min_freq, True],
     #["bigram", bigram_measures.pmi, 300,  min_freq, True],
     ["bigram", bigram_measures.chi_sq, 300,  min_freq, True],
     #Extraktion der Trigramme
@@ -71,12 +71,12 @@ class NgramFinder:
 
     #http://stackoverflow.com/questions/5512765/removing-punctuation-numbers-from-text-problem
 
-    @staticmethod
-    def _clean_text(text):
-        #text = [w.lower() for w in text]
-        #punctuation = re.compile(r'[.?!,„":;`€$\'()#|0-9]')
-        punctuation = re.compile(r'[.?!,„":;`€$\'()#|0-9]')
-        return [punctuation.sub("", token) for token in text]
+    # @staticmethod
+    # def _clean_text(text):
+    #     #text = [w.lower() for w in text]
+    #     #punctuation = re.compile(r'[.?!,„":;`€$\'()#|0-9]')
+    #     punctuation = re.compile(r'[.?!,„":;`€$\'()#|0-9]')
+    #     return [punctuation.sub("", token) for token in text]
 
     @staticmethod
     def _create_finder(type, text):
@@ -91,7 +91,7 @@ class NgramFinder:
     @staticmethod
     def _find_ngrams(type, text, corpus_name, method, maxhits, minhits, stopwordfilter):
         methodname = method.__name__
-        text = NgramFinder._clean_text(text)
+        #text = NgramFinder._clean_text(text)
         print("...Erstelle CollocationFinder-Objekt fuer Typ {" + type + ", " + methodname + "}...")
         finder = NgramFinder._create_finder(type, text)
         finder.apply_freq_filter(minhits)
