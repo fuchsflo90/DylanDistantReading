@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from CorpusText import CorpusText
 from CSVwriter import CSVwriter
 from NgramFinder import NgramFinder
+from FileReader import FileReader
 from nltk.corpus.reader import TaggedCorpusReader
 import nltk
 import re
@@ -47,6 +48,15 @@ def main():
 
     #print([token[0] for token in untersuchungsbereich])
 
+#*******************************************************Dylan vs. ANC *************************************************#
+
+    fredDist_anc = FileReader.read_ANC_freqDist()
+    total_anc_words = sum( val[1] for val in fredDist_anc)
+    difvals = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_anc, length_a, total_anc_words)
+    CSVwriter.write_text_differences("significant_text_differences", "dylan_anc", True, 300, "words", difvals,
+                                     'all_words')
+
+#**********************************************************************************************************************#
     
     #Signifikante Unterschiede der Worthäufigkeiten (Wortartenfilterung)
     args = [('NN', 'nouns'),('NNP', 'proper_nouns'),('VB', 'verbs'),('JJ', 'adjectives')]
@@ -68,6 +78,8 @@ def main():
     # Details siehe Klasse NgramFinder
     NgramFinder.find(untersuchungsbereich, "dylan_int")
     #NgramFinder.find(corpus_b, name_b)
+
+
 
 
 class CorpusReader(object):

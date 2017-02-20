@@ -5,6 +5,7 @@ __author__ = 'Colin Sippl'
 from nltk.corpus.reader import TaggedCorpusReader
 from SpeechObject import SpeechObject
 import nltk
+import csv
 
 class FileReader(object):
     def __init__(self, file_name, corpus_path):
@@ -39,3 +40,11 @@ class FileReader(object):
 
     def return_pos_text_tokens(self):
         return nltk.Text(nltk.word_tokenize(self.pos_file))
+
+    @staticmethod
+    def read_ANC_freqDist():
+        lines = list()
+        with open('./corpus/ANC/ANC-token-count.txt', 'r', encoding="utf8") as tsv:
+            for line in tsv:
+                lines.append(line.strip().split('\t'))
+        return [(line[0], int(line[1])) for line in lines if len(line) == 3]
