@@ -15,10 +15,12 @@ trigram_measures = nltk.collocations.TrigramAssocMeasures()
 quadgram_measures = quadgramAssocMeasures.QuadgramAssocMeasures()
 
 #Suchfenster für die N-Gramm-Extraktion
+#5
 search_window = 5
 
 #minimales Auftreten im Korpus
-min_freq = 4
+#4
+min_freq = 3
 
 args = [
     #Argumente für N-Gramm-Extraktion
@@ -27,16 +29,16 @@ args = [
     #["bigram", bigram_measures.raw_freq, 300,  min_freq, True],
     #["bigram", bigram_measures.likelihood_ratio, 300,  min_freq, True],
     ["bigram", bigram_measures.poisson_stirling, 300, min_freq, True],
-    #["bigram", bigram_measures.jaccard, 300,  min_freq, True],
+    ["bigram", bigram_measures.jaccard, 300,  min_freq, True],
     #["bigram", bigram_measures.pmi, 300,  min_freq, True],
     ["bigram", bigram_measures.chi_sq, 300,  min_freq, True],
     #Extraktion der Trigramme
     #["trigram", trigram_measures.raw_freq, 300,  min_freq, True],
     #["trigram", trigram_measures.likelihood_ratio, 300,  min_freq, True],
-    #["trigram", trigram_measures.poisson_stirling, 300, min_freq, True],
-    #["trigram", trigram_measures.jaccard, 300,  min_freq, True],
+    ["trigram", trigram_measures.poisson_stirling, 300, min_freq, True],
+    ["trigram", trigram_measures.jaccard, 300,  min_freq, True],
     #["trigram", trigram_measures.pmi, 300,  min_freq, True],
-    #["trigram", trigram_measures.chi_sq, 300,  min_freq, True],
+    ["trigram", trigram_measures.chi_sq, 300,  min_freq, True],
     #Extraktion der Quadgramme
     #["quadgram", quadgram_measures.raw_freq, 300,  min_freq, True],
     #["quadgram", quadgram_measures.likelihood_ratio, 300,  min_freq, True],
@@ -90,17 +92,19 @@ class NgramFinder:
 
     @staticmethod
     def _find_ngrams(type, text, corpus_name, method, maxhits, minhits, stopwordfilter):
+        #stopwordfilter = False
         methodname = method.__name__
         #text = NgramFinder._clean_text(text)
+        if stopwordfilter:
+            filter = nltk.corpus.stopwords.words('english')
+            filter2 = (',', '.', '!', '?', ':', ';', '\xe2\x80\x94', '€', '$', '(', ')', '#', '|', "'", '"', '`', '´')
+            text = [(a, b) for (a, b) in text if a.lower() not in filter]
+            text = [(a, b) for (a, b) in text if a.lower() not in filter2]
         print("...Erstelle CollocationFinder-Objekt fuer Typ {" + type + ", " + methodname + "}...")
         finder = NgramFinder._create_finder(type, text)
         finder.apply_freq_filter(minhits)
-        if stopwordfilter:
-            ignored_words = nltk.corpus.stopwords.words('german')
-            ignored_words2 = NgramFinder._read_external_stopwords()
-            finder.apply_word_filter(lambda w: len(w) < 4 or w.lower() in ignored_words)
-            finder.apply_word_filter(lambda w: len(w) < 4 or w.lower() in ignored_words2)
         from CSVwriter import CSVwriter
+        #print(finder.score_ngrams(method))
         CSVwriter.write_ngrams(methodname, corpus_name, stopwordfilter, minhits, maxhits, 'ngram', finder.score_ngrams(method))
 
     @staticmethod

@@ -6,6 +6,7 @@ class CSVwriter(object):
     @staticmethod
     def write_ngrams(method_name, corpus_name, stopwordfilter, minhits, maxlength, datatype, data):
         ngram_length = len(data[0][0])
+        #print("Gesamt: " + str(len(data)) + " Reihe 1: " + str(ngram_length))
         path = './output/data/' + datatype + '/' + 'min' + str(minhits) + '/' + corpus_name + '/' + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/'
         print("___________________Erzeuge " + datatype + '/' + 'min' + str(minhits) + '/' + corpus_name + '/' + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/' + str(ngram_length) +'-gram.csv')
         if not os.path.exists(path):
@@ -20,9 +21,9 @@ class CSVwriter(object):
                     index = 0
                     for e in element[0]:
                         if index == ngram_length-1:
-                            out += e
+                            out += str(e[0])
                         else:
-                            out += e + " "
+                            out += str(e[0]) + " "
                         index += 1
                     out += "," + str(element[1]) + "\n"
                     csv_file.write(out)

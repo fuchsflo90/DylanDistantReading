@@ -4,6 +4,7 @@ __author__ = 'Colin Sippl'
 from bs4 import BeautifulSoup
 from CorpusText import CorpusText
 from CSVwriter import CSVwriter
+from NgramFinder import NgramFinder
 from nltk.corpus.reader import TaggedCorpusReader
 import nltk
 import re
@@ -25,7 +26,6 @@ def main():
     #print(untersuchungsbereich)
     kontrollbereich = reader.select_taggedsongs_from_author("Bob Dylan", 1971, 2020)
     #kontrollbereich = nltk.word_tokenize(kontrollbereich)
-
 
     # Berechne Anzahl der Tokens pro Korpus-Text
     length_a = CorpusText.count_tokens(untersuchungsbereich)
@@ -62,6 +62,12 @@ def main():
         CSVwriter.write_text_differences("significant_text_differences", "dylan_rest", True, 300, "words", difvals2, arg[1])
 
 
+#******************************************************Finde N-Gramme***********************************************
+#*****************************************************!!!!ACHTUNG!!!!***********************************************
+#*****************************Berechungszeit kann unter Umständen sehr lange dauern!!!******************************
+    # Details siehe Klasse NgramFinder
+    NgramFinder.find(untersuchungsbereich, "dylan_int")
+    #NgramFinder.find(corpus_b, name_b)
 
 
 class CorpusReader(object):
