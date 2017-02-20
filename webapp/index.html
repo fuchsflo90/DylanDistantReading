@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link href="style/style.css" rel="stylesheet" type="text/css" />
+		<title>Bob Dylan - Songtext Analyse</title>
+	</head>
+
+	<body>
+    <div id="wrapper">
+        <div id="header">
+            <div class="info" id="heading">
+                <span>Eine Distant-Reading-Analye der Songtexte von Bob Dylan aus den Jahren 1963 bis 2016</span>
+            </div>
+            <div class="content">
+            	<ul class="mainmenu">
+                	<li id="start" title="Zur Startansicht" class="mbutton">Zurück</li>
+                	<li id="absolute_freq" title="Absolute Wortfrequenzen" class="mbutton" value="word_rank_absolut_freq">Absolute Worthäufigkeiten</li>
+                	<li id="freq_profiling" title="Log-likelihood-Test zur Berechnung der Signifikanz (Paul Rayson)" class="mbutton" value="significant_text_differences">Korpusvergleich mit Log-Likelihood-Methode</li>
+                	<li id="ngrams" title="Nach unterschiedlichen Verfahren extrahierte N-Gramme (window = 5)" class="mbutton" value="ngrams">N-Gramme</li>
+               
+            	</ul>
+                <ul class="mainmenu">
+                	<li class="button" title="Erste Vergleichspartei" id="partei_a" value="fpö">FPÖ</li>
+                    <li class="button" title="Zweite Vergleichspartei" id="partei_b" value="grüne">GRÜNE</li>
+                    <li class="button" title="Gegenüberstellung der Vergleichsparteien" id="partei_both" value="both">VERGLEICHEN</li>
+                </ul> 
+            </div>
+        </div>
+        <div id="contentwrapper">
+        	<div id="chartwrapper">
+            	<div class="chart data" id="chart0"></div>
+            	<div class="chart data" id="chart1"></div>
+            	<div id="pngurl1" class="hide"></div>
+            	<div id="pngurl2" class="hide"></div>
+            	<canvas id="png_img" class="hide"></canvas>
+        	</div>
+
+        	<!-- unnötig -->
+            <div class="maincontent" id="overview"></div>
+
+                 
+        </div>
+        <div id="footer">
+        	<div class="content">
+            	<table style="float:left" class="menu">
+                	<tr>
+                    	<th>Stoppwortfilter</th>
+                    </tr>
+                    <tr>
+                    	<td>
+                        	<select id="stopwordselector">
+                            	<option style="font-weight:bold" value="stopwords_True" selected>Ja</option>
+                            	<option value="stopwords_False">Nein</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+                <ul class="smallmenu"  id="viewselector">
+                    <li class="smallbutton view" title="Erzeuge Diagramm" id="s1">Diagramm</li>
+                    <li class="smallbutton view" title="Erzeuge Baumkarte" id="s3">Baumkarte</li>
+                    <li class="smallbutton view" title="Erzeuge Wortwolke" id="s2">Wortwolke</li>
+                    <li class="smallbutton view" title="Erzeuge Tabellenansicht" id="s6">Tabelle</li>
+                    <li class="smallbutton view" title="CSV-Datei herunterladen (Datenquelle)" id="s4">Download CSV</li>
+                    <li class="smallbutton view" title="PNG-Bild herunterladen" id="s5">Download PNG</li>
+                </ul>
+                <ul class="smallmenu" id="posselector">
+                    <li class="smallbutton pos" id="w1" title="all_words">Alle Tokens</li>
+                    <li class="smallbutton pos" id="w2" title="nouns">Nomen</li>
+                    <li class="smallbutton pos" id="w3" title="nouns_nn">Appellativa</li>
+                    <li class="smallbutton pos" id="w4" title="nouns_ne">Eigennamen</li>
+                    <li class="smallbutton pos" id="w5" title="adjectives">Adjektive</li>
+                    <li class="smallbutton pos" id="w6" title="adjectives_at">Attributive Adjektive</li>
+                    <li class="smallbutton pos" id="w7" title="adjectives_ad">Adverbiale u. prädikative Adjektive</li>
+                    <li class="smallbutton pos" id="w8" title="verbs_zu">Verben Interfix 'zu'</li>
+                    <li class="smallbutton pos" id="w9" title="verbs_inf">Vollverben Infinitiv</li>
+                    <li class="smallbutton pos" id="w10" title="bigrams">Bigramme</li>
+                    <li class="smallbutton pos" id="w11" title="trigrams">Trigramme</li>
+            	</ul>
+                <table class="menu" id="menu_ngram">
+                    <tr>
+                        <th>Minimale Frequenz</th>
+                        <th>Methode</th>
+                        <th>N-Gramm-Länge</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select id="frequencyselector">
+                                <option value="min1">Einmaliges Auftreten</option>
+                                <option style="font-weight:bold" value="min2" selected>Doppeltes Auftreten</option>
+                                <option value="min3">Dreifaches Auftreten</option>
+                                <option value="min3">Vierfaches Auftreten</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="methodselector">
+                                <option value="raw_freq">Absolute Häufigkeit</option>
+                                <option value="chi_sq">Chi-Quadrat-Test</option>
+                                <option value="jaccard">Jaccard-Test</option>
+                                <option value="likelihood_ratio">Likelihood-Quotienten-Test</option>
+                                <option value="pmi">Pointwise Mutual Information</option>
+                                <option style="font-weight:bold" value="poisson_stirling" selected>Poisson-Stirling-Test</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select id="lengthselector">
+                                <option style="font-weight:bold" value="2-gram" selected>Bigramme</option>
+                                <option value="3-gram">Trigramme</option>
+                                <option value="4-gram">Quadgramme</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+                <div class="info">
+                    <span id="cpright">© 2017 Colin Sippl, Florian Fuchs</span>
+                </div>
+        </div>
+    </div>
+    </body>
+
+	<script charset="utf-8" src="script/jquery-2.1.4.min.js"></script>
+
+    <script charset="utf-8" src="script/d3/papaparse.min.js"></script>
+    <script charset="utf-8" src="script/d3/d3.min.js"></script>
+    <script charset="utf-8" src="script/d3/d3plus.full.min.js"></script>
+    <script charset="utf-8" src="script/d3/d3.layout.cloud.js"></script>
+    <script charset="utf-8" src="script/d3/c3.min.js"></script>
+
+
+	<script src="script/visualizer/Visualizer.js"></script>
+    <script src="script/visualizer/VisualizerModel.js"></script>
+    <script src="script/visualizer/VisualizerView.js"></script>
+    <script src="script/visualizer/VisualizerController.js"></script>
+
+    <script charset="utf-8" src="script/saveSvgAsPng.js"></script>
+    <script charset="utf-8" src="script/DiscourseAnalysis.js"></script>
+    <script charset="utf-8" src="script/Datamanager.js"></script>
+    <script charset="utf-8" src="script/TestCloud.js"></script>
+    <script charset="utf-8" src="script/Table.js"></script>
+
+    <script charset="utf-8" src="script/views/ParliamentView.js"></script>
+    <script charset="utf-8" src="script/views/ElectionsView.js"></script>
+    <script charset="utf-8" src="script/views/CorporaInfoView.js"></script>
+    <script charset="utf-8" src="script/views/ChartView.js"></script>
+    <script charset="utf-8" src="script/views/WordcloudViewNew.js"></script>
+    <script charset="utf-8" src="script/views/TreemapView.js"></script>
+
+    <script>
+    	Visualizer.init();
+    </script>
+</html>
