@@ -1,23 +1,19 @@
-__author__ = 'Colin Sippl'
+__author__ = 'Colin Sippl, Florian Fuchs'
 # -*- coding: utf-8 -*-
 # lese Songtext-Korpusdatei
-from bs4 import BeautifulSoup
 from CorpusText import CorpusText
 from CSVwriter import CSVwriter
 from NgramFinder import NgramFinder
 from FileReader import FileReader
 from CorpusReader import CorpusReader
-from nltk.stem.lancaster import LancasterStemmer
-from nltk.corpus.reader import TaggedCorpusReader
-import nltk
-import re
+from nltk.stem.snowball import SnowballStemmer
 
 # Name der Korpusdatei
 file_name = "Corpus_Dylan452.xml"
 # Pfad der Korpusdatei
 corpus_path = './corpus/'
 
-# ANC-Referenzkorpus-Dateien
+# OANC-Referenzkorpus-Dateien
 anc_token_count = './corpus/ANC/ANC-token-count.txt'
 # Lemmata u. POS-Tags enthalten
 anc_written_count = './corpus/ANC/ANC-written-count.txt'
@@ -32,8 +28,8 @@ def main():
 
     # **********************************Untersuchungsintervalle v. Dylans Werk******************************************#
     # intervalls = [(1960, 1970), (1971, 1980), (1981, 1990), (1991, 2000), (2001, 2020)]
-    year_start = 1990
-    year_end = 2000
+    year_start = 1980
+    year_end = 1990
     year_end_corpus = 2020
 
     path_property = str(year_start) + '-' + str(year_end)
@@ -66,19 +62,20 @@ def main():
 
     # print([token[0] for token in untersuchungsbereich])
 
-    #*******************************************************Dylan vs. ANC *********************************************#
+    #*****************************************************Dylan vs. OANC **********************************************#
     #*************************************************** + LEMMATISIERUNG + *******************************************#
 
-    st = LancasterStemmer()
+    #st = LancasterStemmer()
+    st = SnowballStemmer("english")
     untersuchungsbereich_lem = [ ( (st.stem(a)) ,b) for (a,b) in untersuchungsbereich ]
     n_lexems_dylan = CorpusText.count_tokens(untersuchungsbereich_lem)
-    print(str( n_lexems_dylan ) + " vs. " + str(length_a))
-    print(untersuchungsbereich_lem)
+    #print(str( n_lexems_dylan ) + " vs. " + str(length_a))
+    #print(untersuchungsbereich_lem)
     fredDist_lem = CorpusText.pos_rank_absolut_freq(True, "dylan_int", untersuchungsbereich_lem, "", 'all_words',
                                                   path_property)
 
     fredDist_anc = FileReader.read_ANC_file(anc_all_count, 1, 3)
-    print(fredDist_anc)
+    #print(fredDist_anc)
     total_anc_words = sum(val[1] for val in fredDist_anc)
     difvals = CorpusText.calculate_significant_word_differences(fredDist_lem, fredDist_anc,  n_lexems_dylan, total_anc_words)
     CSVwriter.write_text_differences("significant_text_differences", "dylan_anc", True, 300, "words", difvals,

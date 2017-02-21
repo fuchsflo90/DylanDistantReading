@@ -1,4 +1,4 @@
-__author__ = 'Colin Sippl'
+__author__ = 'Colin Sippl, Florian Fuchs'
 # -*- coding: utf-8 -*-
 import os
 
@@ -48,21 +48,6 @@ class CSVwriter(object):
                     pass
             csv_file.close()
 
-    @staticmethod
-    def write_context(method_name, corpus_name, maxlength, datatype, data, intervall):
-        path = './output/' + intervall + '/' + datatype + '/' + corpus_name + '/' + method_name + '/'
-        print("___________________Erzeuge " + datatype + '/' + corpus_name + '/' + method_name + '/' + data[0][0] +'.csv')
-        if not os.path.exists(path):
-            os.makedirs(path)
-        with open(path + data[0][0] +'.csv', mode='w', encoding='utf8') as csv_file:
-            csv_file.write('WORD,VALUE,\n')
-            for element in data[:maxlength]:
-                try:
-                    csv_file.write(element[0] + "," + str(element[1]) + "\n")
-                except (UnicodeEncodeError):
-                    print("ERROR__________________________________")
-                    pass
-            csv_file.close()
 
     @staticmethod
     def write_words_rank(method_name, corpus_name, stopwordfilter, maxlength, datatype, data, filename, intervall):

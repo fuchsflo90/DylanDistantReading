@@ -1,21 +1,19 @@
-from builtins import print
+__author__ = 'Colin Sippl, Florian Fuchs'
 # -*- coding: utf-8 -*-
+from builtins import print
 import nltk
+from CorpusText import CorpusText
 from nltk.collocations import *
 from nltk.util import *
 # http://stackoverflow.com/questions/7404720/nltk-fails-to-find-the-java-executable
 import os
-import quadgramAssocMeasures
-import re
 
 os.environ['JAVAHOME'] = "C:/Program Files/Java/jdk1.8.0_25/bin"
 
 bigram_measures = nltk.collocations.BigramAssocMeasures()
 trigram_measures = nltk.collocations.TrigramAssocMeasures()
-quadgram_measures = quadgramAssocMeasures.QuadgramAssocMeasures()
 
 #Suchfenster für die N-Gramm-Extraktion
-#5
 search_window = 5
 
 #minimales Auftreten im Korpus
@@ -27,25 +25,18 @@ args = [
     #N-Gramm-Typ, Länge, Extraktionsart, max. Anzahl, minimales Auftreten, Stoppwort-Verwendung
     #Extraktion der Bigramme
     #["bigram", bigram_measures.raw_freq, 300,  min_freq, True],
-    #["bigram", bigram_measures.likelihood_ratio, 300,  min_freq, True],
+    ["bigram", bigram_measures.likelihood_ratio, 300,  min_freq, True],
     ["bigram", bigram_measures.poisson_stirling, 300, min_freq, True],
     ["bigram", bigram_measures.jaccard, 300,  min_freq, True],
-    #["bigram", bigram_measures.pmi, 300,  min_freq, True],
+    ["bigram", bigram_measures.pmi, 300,  min_freq, True],
     ["bigram", bigram_measures.chi_sq, 300,  min_freq, True],
     #Extraktion der Trigramme
     #["trigram", trigram_measures.raw_freq, 300,  min_freq, True],
-    #["trigram", trigram_measures.likelihood_ratio, 300,  min_freq, True],
+    ["trigram", trigram_measures.likelihood_ratio, 300,  min_freq, True],
     ["trigram", trigram_measures.poisson_stirling, 300, min_freq, True],
     ["trigram", trigram_measures.jaccard, 300,  min_freq, True],
-    #["trigram", trigram_measures.pmi, 300,  min_freq, True],
-    ["trigram", trigram_measures.chi_sq, 300,  min_freq, True],
-    #Extraktion der Quadgramme
-    #["quadgram", quadgram_measures.raw_freq, 300,  min_freq, True],
-    #["quadgram", quadgram_measures.likelihood_ratio, 300,  min_freq, True],
-    #["quadgram", quadgram_measures.poisson_stirling, 300, min_freq, True],
-    #["quadgram", quadgram_measures.jaccard, 300,  min_freq, True],
-    #["quadgram", quadgram_measures.pmi, 300,  min_freq, True],
-    #["quadgram", quadgram_measures.chi_sq, 300,  min_freq, True]
+    ["trigram", trigram_measures.pmi, 300,  min_freq, True],
+    ["trigram", trigram_measures.chi_sq, 300,  min_freq, True]
 ]
 
 # http://streamhacker.com/tag/chi-square/
@@ -54,14 +45,6 @@ args = [
 
 class NgramFinder:
 
-    #@staticmethod
-    #def find(text, corpus_name):
-    #    for entry in args:
-    #        for i in range(1, min_freq+1):
-    #            #Ignore stopwords
-    #            NgramFinder._find_ngrams(entry[0], text, corpus_name, entry[1], entry[2], i, True)
-    #            #Leave stopwords
-    #            NgramFinder._find_ngrams(entry[0], text, corpus_name, entry[1], entry[2], i, False)
 
     @staticmethod
     def find(text, corpus_name, path_property):
@@ -73,12 +56,6 @@ class NgramFinder:
 
     #http://stackoverflow.com/questions/5512765/removing-punctuation-numbers-from-text-problem
 
-    # @staticmethod
-    # def _clean_text(text):
-    #     #text = [w.lower() for w in text]
-    #     #punctuation = re.compile(r'[.?!,„":;`€$\'()#|0-9]')
-    #     punctuation = re.compile(r'[.?!,„":;`€$\'()#|0-9]')
-    #     return [punctuation.sub("", token) for token in text]
 
     @staticmethod
     def _create_finder(type, text):
@@ -86,20 +63,13 @@ class NgramFinder:
             finder = BigramCollocationFinder.from_words(text, search_window)
         if type == "trigram":
             finder = TrigramCollocationFinder.from_words(text, search_window)
-        if type == "quadgram":
-            finder = nltk.collocations.QuadgramCollocationFinder.from_words(text, search_window)
         return finder
 
     @staticmethod
     def _find_ngrams(type, text, corpus_name, method, maxhits, minhits, stopwordfilter, path_property):
-        #stopwordfilter = False
         methodname = method.__name__
-        #text = NgramFinder._clean_text(text)
         if stopwordfilter:
-            filter = nltk.corpus.stopwords.words('english')
-            filter2 = (',', '.', '!', '?', ':', ';', '\xe2\x80\x94', '€', '$', '(', ')', '#', '|', "'", '"', '`', '´')
-            text = [(a, b) for (a, b) in text if a.lower() not in filter]
-            text = [(a, b) for (a, b) in text if a.lower() not in filter2]
+            text = CorpusText._apply_stopwords(text)
         print("...Erstelle CollocationFinder-Objekt fuer Typ {" + type + ", " + methodname + "}...")
         finder = NgramFinder._create_finder(type, text)
         finder.apply_freq_filter(minhits)

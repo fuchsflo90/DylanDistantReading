@@ -1,4 +1,5 @@
-__author__ = 'Colin Sippl'
+__author__ = 'Colin Sippl, Florian Fuchs'
+# -*- coding: utf-8 -*-
 
 import json
 import os

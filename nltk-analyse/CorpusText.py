@@ -1,8 +1,7 @@
-__author__ = 'Colin Sippl'
+__author__ = 'Colin Sippl, Florian Fuchs'
 # -*- coding: utf-8 -*-
 import nltk
 import math
-from NgramFinder import NgramFinder
 
 class CorpusText(object):
 
@@ -16,61 +15,27 @@ class CorpusText(object):
 
     @staticmethod
     def _apply_stopwords(text):
-        #text = [w.lower() for w in text]
-        #ext_stopwords = CorpusText._read_external_stopwords()
-        filter = nltk.corpus.stopwords.words('english')
-        #[.?!,„":;`€$\'()#|0-9]
-        filter2 = (',', '.', '!', '?', ':', ';', '\xe2\x80\x94', '€', '$', '(', ')', '#', '|', "'", '"','`', '´')
-        #text = [w for w in text if w not in ext_stopwords]
-        text = [(a,b) for (a,b) in text if a.lower() not in filter]
-        text = [(a,b) for (a,b) in text if a.lower() not in filter2]
+        ext_stopwords = CorpusText._read_external_stopwords()
+        english_stopwords = nltk.corpus.stopwords.words('english')
+        special_chars = (',', '.', '!', '?', ':', ';', '\xe2\x80\x94', '€', '$', '(', ')', '#', '|', "'", '"','`', '´')
+        text = [(a,b) for (a,b) in text if a not in ext_stopwords]
+        text = [(a,b) for (a,b) in text if a not in english_stopwords]
+        text = [(a,b) for (a,b) in text if a not in special_chars]
         return text
 
     @staticmethod
     def pos_rank_absolut_freq(stopwords, corpus_name, text, postag, filename, path_property):
         if stopwords:
-            #text = CorpusText._apply_stopwords_to_pos(text)
             text = CorpusText._apply_stopwords(text)
         if postag == '':
             freq = nltk.FreqDist(
-                element[0].lower() for element in text)
+                element[0] for element in text)
         else:
-            freq = nltk.FreqDist(element[0].lower() for element in text if element[1] != None and element[1].startswith(postag))
+            freq = nltk.FreqDist(element[0] for element in text if element[1] != None and element[1].startswith(postag))
         freq = list(freq.items())
         freq.sort(key=lambda tup: tup[1], reverse=True)
         from CSVwriter import CSVwriter
-        #CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq, filename, path_property)
-        return freq
-
-    @staticmethod
-    def bigrams_rank_absolut_freq(stopwords, corpus_name, text, filename):
-        if stopwords:
-            text = CorpusText._apply_stopwords(text)
-        text = NgramFinder.find_bigrams(text)
-        freq = nltk.FreqDist(text)
-        freq = list(freq.items())
-        freq.sort(key=lambda tup: tup[1], reverse=True)
-        from CSVwriter import CSVwriter
-        freq_list = []
-        for entry in freq:
-            freq_list.append((entry[0][0] + " " + entry[0][1], entry[1]))
-        #CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq_list, filename)
-        return freq
-
-    @staticmethod
-    def trigrams_rank_absolut_freq(stopwords, corpus_name, text, filename):
-        if stopwords:
-            text = CorpusText._apply_stopwords(text)
-        text = NgramFinder.find_trigrams(text)
-        freq = nltk.FreqDist(text)
-        freq = list(freq.items())
-        freq.sort(key=lambda tup: tup[1], reverse=True)
-        from CSVwriter import CSVwriter
-        freq_list = []
-        for entry in freq:
-            freq_list.append((entry[0][0] + " " + entry[0][1] + " " + entry[0][2], entry[1]))
-        #CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq_list, filename)
-        #freq.plot(50, cumulative=False)
+        CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq, filename, path_property)
         return freq
 
     @staticmethod

@@ -1,12 +1,7 @@
-__author__ = 'Colin Sippl'
+__author__ = 'Colin Sippl, Florian Fuchs'
 # -*- coding: utf-8 -*-
 # lese Songtext-Korpusdatei
 from bs4 import BeautifulSoup
-from CorpusText import CorpusText
-from CSVwriter import CSVwriter
-from NgramFinder import NgramFinder
-from FileReader import FileReader
-from nltk.corpus.reader import TaggedCorpusReader
 import nltk
 import re
 
@@ -60,6 +55,7 @@ class CorpusReader(object):
                 if author_name in query:
                     text += " " + song.find("text", text=True).text
         text = [nltk.tag.str2tuple(t) for t in text.split()]
+        text = [(a.lower(),b) for (a,b) in text]
         return text
 
     def return_tagged_tokens(self):

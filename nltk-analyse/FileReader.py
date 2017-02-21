@@ -1,10 +1,9 @@
-__author__ = 'Colin Sippl'
+__author__ = 'Colin Sippl, Florian Fuchs'
 # -*- coding: utf-8 -*-
 # lese POS-Korpusdatei
 # http://www.nltk.org/api/nltk.corpus.reader.html
 from nltk.corpus.reader import TaggedCorpusReader
 import nltk
-import csv
 
 class FileReader(object):
     def __init__(self, file_name, corpus_path):
