@@ -1,0 +1,305 @@
+@charset "utf-8";
+/* CSS Document */
+@font-face {
+	font-family: font;
+	/*src: url("../font/Abel-Regular.ttf");*/
+	/*font-weight: bold;*/
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+body {
+	background: no-repeat center center fixed;
+	background-image: url("../img/background.png");
+	background-size: 99% auto;
+	font-family: 'font';
+}
+
+p {
+	text-align: justify;
+}
+
+.mainmenu {
+	white-space: nowrap;
+    list-style-type: none;
+    margin: 0;
+   padding: 1%;
+}
+
+
+.options{
+	padding: auto 0;
+}
+
+
+.info{
+	padding-right: 14px;
+	text-align: right;
+	background-color: #fff;
+}
+
+#header{
+	margin-top: -10px;
+	clear: both;
+	width: 100%;
+	position:fixed;
+    /*top:0px;*/
+    overflow: hidden;
+    background-color: #fff;
+    border-bottom: 1px dashed;
+    z-index: 1;
+}
+
+@keyframes menu {
+    from {color: black;
+	background-color: #eee;}
+    to {color: #fff;
+	background-color: #EB7440;}
+}
+
+.hide {
+	visibility: collapse;
+	display: none;
+}
+
+.unable {
+	color: red;
+	text-decoration: line-through;
+}
+
+.active{
+	background-color: #EB7440;
+	color: #fff;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.active.mbutton{
+	/*background-color: #999;*/
+	color: white;
+	background-color: #40b7eb;
+	pointer-events: none;
+}
+
+.selected.mbutton{
+	/*background-color: #999;*/
+	color: white;
+	background-color: #40b7eb;
+	pointer-events: none;
+}
+
+.active.button{
+	background-color: #EB7440;
+}
+
+.button {
+	display: inline;
+	font-size: 20pt;
+	font-weight: bold;
+	padding: 0.5%;
+	background-color: #eee;
+	border-radius: 10px;
+}
+
+.mbutton {
+	display: inline;
+	font-weight: bold;
+	font-size: 16pt;
+	background-color: #eee;
+	 padding: 1%;
+}
+
+.button:hover{
+	animation-name: menu;
+	animation-duration: 0.3s;
+	background-color: #EB7440;
+	/*background-color: #E75211;*/
+	color: #fff;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.mbutton:hover{
+	animation-name: menu;
+	animation-duration: 0.3s;
+	background-color: #EB7440;
+	color: #fff;
+	cursor: pointer;
+	cursor: hand;
+}
+
+
+
+/*******************************MAIN CONTENT**********************************/
+#wrapper{
+	background: rgba(255,255,255,0.93);
+}
+
+.start{
+	padding-top: 5%;
+}
+
+.app{
+	padding-top: 10%;
+}
+
+#contentwrapper{
+	/*background: linear-gradient(to right, rgba(31,99,255, 0.15), rgba(99,255,31, 0.15));*/
+	overflow: hidden;
+	margin: auto 0%;
+}
+.youtube-player { display: block; margin: 0 auto; }
+
+.logo {
+	 background-position: center;
+	background-repeat: no-repeat;
+	width: auto;
+	height: 160px;
+}
+
+#chartwrapper{
+	margin-top: -25px;
+}
+
+.chart {
+	 display: inline-block;
+}
+
+.startcontent{
+	margin: auto 5%;
+}
+
+.content{
+	margin: auto 5%;
+}
+
+.chartinfo {
+	width: 40%;
+	float: left;
+	padding: 5%;
+}
+
+.compare {
+	margin: auto;
+}
+
+#chartinfo1 .logo{
+background-image: url("../img/fpoe.jpg");
+}
+
+#chartinfo2 .logo{
+background-image: url("../img/gruene.png");
+}
+
+.maincontent{
+margin: auto 17%;
+padding-bottom: 5%
+}
+
+.text {
+	clear: both;
+}
+
+.legend {                                                 
+        font-size: 12pt;   
+        font-weight: bold;                                      
+      } 
+
+rect {                                                      
+        stroke-width: 2;                                          
+      } 
+
+.tableheading{
+	padding-left: 10%;
+}
+
+.valtable, #sampletable {
+	margin: auto;
+	 border-collapse: collapse;
+}
+
+.valtable{
+	padding-left: 25%;
+}
+
+.rnk {
+ 
+}
+
+.vl{
+	font-style: italic;
+}
+
+th {
+	font-size: 14pt;
+	text-align: left;
+}
+
+ .rnk, .wrd, .vl {
+    /*border: 1px dotted black;*/
+}
+
+/****************************FOOTER****************************/
+#footer{
+	width: 100%;
+	position:fixed;
+    bottom:0px;
+    overflow: hidden;
+    background-color: #fff;
+    border-top: 1px dashed;
+}
+
+#footer th{
+	text-align: left;
+}
+
+.footer  {
+	font-size: 14pt;
+	position: right;
+}
+
+@keyframes smallmenu {
+    from {color: black;
+	background-color: #ddd;}
+    to {color: #fff;
+	background-color: #40b7eb;}
+}
+
+.smallmenu {
+	white-space: nowrap;
+    list-style-type: none;
+    margin: 0;
+   padding: 1%;
+}
+
+
+.smallbutton {
+	display: inline;
+	font-size: 12pt;
+	font-weight: bold;
+	padding: 0.4%;
+	background-color: #ddd;
+	border-radius: 5px;
+}
+
+.smallbutton:hover{
+	animation-name: smallmenu;
+	animation-duration: 0.3s;
+	/*background-color: #3399FF;*/
+	background-color: #40b7eb;
+	color: #fff;
+	cursor: pointer;
+	cursor: hand;
+}
+
+.active.smallbutton{
+	background-color: #40b7eb;
+}
+
+/*CHART*/
+.tick{
+  /*font-weight:bold;*/
+  font-size: 10pt;
+}

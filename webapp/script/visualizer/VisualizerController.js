@@ -44,7 +44,8 @@ Visualizer.VisualizerController = function(){
         	path = filepath;
     	}
     
-    	filepath = "./words/" + $('.button.active').attr('value') + "_XXV/" + $('#stopwordselector').val() + "/" + $('.mbutton.active').attr('value') + "/" + $(".pos.smallbutton.active").attr('title') + ".csv";
+    	filepath = "./words/" + "dylan_rest/" + "stopwords_True" + "/" + $('.mbutton.active').attr('value') + "/" + $(".pos.smallbutton.active").attr('title') + ".csv";
+    	console.log("datei geladen:" + filepath);
     	path = filepath;
 	};
 
@@ -53,8 +54,8 @@ Visualizer.VisualizerController = function(){
 		var filepaths = new Array(2);
 
     	if ($('.mbutton.active').attr('value') == "ngrams") {
-        	filepaths[0] = "./ngram/" + $('#frequencyselector').val() + "/" + $('#partei_a').attr('value') + "_XXV/" + $('#stopwordselector').val() + "/" + $('#methodselector').val() + "/" + $('#lengthselector').val() + ".csv";
-        	filepaths[1] = "./ngram/" + $('#frequencyselector').val() + "/" + $('#partei_b').attr('value') + "_XXV/" + $('#stopwordselector').val() + "/" + $('#methodselector').val() + "/" + $('#lengthselector').val() + ".csv";
+        	filepaths[0] = "./ngram/" + $('#frequencyselector').val() + "/" + "fpö" + "_XXV/" + $('#stopwordselector').val() + "/" + $('#methodselector').val() + "/" + $('#lengthselector').val() + ".csv";
+        	filepaths[1] = "./ngram/" + $('#frequencyselector').val() + "/" + "grüne" + "_XXV/" + $('#stopwordselector').val() + "/" + $('#methodselector').val() + "/" + $('#lengthselector').val() + ".csv";
         	path = filepath;
     	}
 

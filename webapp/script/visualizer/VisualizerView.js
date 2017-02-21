@@ -18,6 +18,7 @@ Visualizer.VisualizerView = function(){
 		initClickAndChangeEvents();
 		initializeViewScripts();
 		setupView();
+        $(that).trigger("reload");
 	};
 
 	var initClickAndChangeEvents = function(){
@@ -49,45 +50,10 @@ Visualizer.VisualizerView = function(){
     		$(that).trigger("reload");
 		});
 
-		$("#partei_a").click(function() {
-    		barcolor = '#1f77b4';
-    		$('.button.active').removeClass("active");
-    		$('#s3').removeClass("unable").css("pointer-events", "auto");
-    		$('#s4').removeClass("unable").css("pointer-events", "auto");
-    		$(this).addClass("active");
-    		if($(".view.smallbutton.active").attr('id') == 's2'){
-        		$('#contentwrapper').css("background", "rgba(0,43,97, 0.89)");
-    		}
-    		wordcloudview.init(100, 70);
-   			$(that).trigger("reload");
-		});
 
-		$("#partei_b").click(function() {
-    		barcolor = '#77b41f';
-    		$('.button.active').removeClass("active");
-    		$('#s3').removeClass("unable").css("pointer-events", "auto");
-    		$('#s4').removeClass("unable").css("pointer-events", "auto");
-    		$(this).addClass("active");
-    		if($(".view.smallbutton.active").attr('id') == 's2'){
-        		$('#contentwrapper').css("background", "rgba(0,97,43, 0.89)");
-    		}
-    		wordcloudview.init(100, 70);
-    		$(that).trigger("reload");
-		});
+		$(".viewselectorbutton").click(function() {
+            console.log("button wurde gedrückt");
 
-		$("#partei_both").click(function() {
-    		$('#s3').addClass("unable").css("pointer-events", "none");
-    		$('#s4').addClass("unable").css("pointer-events", "none");
-    		$('.button.active').removeClass("active");
-    		$(this).addClass("active");
-    		if($(".view.smallbutton.active").attr('id') == 's2'){
-        		$('#contentwrapper').css("background", "linear-gradient(to right, rgba(0,43,97, 0.89), rgba(0,97,43, 0.89))");
-    		}
-    		wordcloudview.init(49, 70);
-   			$(that).trigger("reload");
-		});
-
-		$(".view.smallbutton").click(function() {
     		if ($(this).attr('id') == 's4'){
          		window.open(path);
         		return;
@@ -96,25 +62,13 @@ Visualizer.VisualizerView = function(){
         		return;
     		}
     		if ($(this).attr('id') == 's2'){
-         		id = $('.button.active').attr("id");
-
-         		if (id == 'partei_a'){
-            		$('#contentwrapper').css("background", "rgba(0,43,97, 0.89)");
-         		}
-
-         		if (id == 'partei_b'){
-            		$('#contentwrapper').css("background", "rgba(0,97,43, 0.89)");
-         		}
-
-         		if (id == 'partei_both'){
-            		$('#contentwrapper').css("background", "linear-gradient(to right, rgba(0,43,97, 0.89), rgba(0,97,43, 0.89))");
-         		}
+                $('#contentwrapper').css("background", "none");
     		}
     		if ($(this).attr('id') == 's1' || $(this).attr('id') == 's3' || $(this).attr('id') == 's6'){
         		$('#contentwrapper').css("background", "none");
     		}
 
-    		$(".view.smallbutton").removeClass('active');
+    		$(".viewselectorbutton").removeClass('active');
     		$(this).addClass('active');
     		$(that).trigger("reload");
 		});
@@ -215,13 +169,9 @@ Visualizer.VisualizerView = function(){
 	};
 
 	var setupView = function(){
-		$('#b_start').addClass('selected');
-    	$('#motivation').addClass('hide');
 		$('#contentwrapper').addClass('start');
-		$('.content').addClass('hide');
-		$('#menu_ngram').addClass('hide');
-		$('#partei_a').addClass('active');
-		$('#absolute_freq').addClass('active');
+		$('#freq_profiling').addClass('active');
+
 		$("#s1").addClass('active');
 		$("#w1").addClass('active');
 		barcolor = '#1f77b4';
@@ -233,7 +183,7 @@ Visualizer.VisualizerView = function(){
 		datamanager = DiscourseAnalysis.Datamanager;
 		datamanager.init(300);
 
-		datamanager.readFile('../meta/nationalratswahlen.csv', function(data){ 
+		/*datamanager.readFile('../meta/nationalratswahlen.csv', function(data){ 
         	electionsview.init(datamanager.returnFile());
         	electionsview.generateElectionsChart();
     	});
@@ -244,7 +194,7 @@ Visualizer.VisualizerView = function(){
 
     	datamanager.readFile('../meta/testwords.csv', function(data){ 
         	testcloud.generateCloud(data, '#testcloud');
-    	});
+    	});*/
 	};
 
 	var generateView = function(path){
@@ -267,17 +217,17 @@ Visualizer.VisualizerView = function(){
         	return;
     	}
   
-    	if ($(".view.smallbutton.active").attr('id') == 's1') {
+    	if ($(".viewselectorbutton.active").attr('id') == 's1') {
         	datamanager.readFile(path, function(data){ 
             	chartview.generateChartView(anchor, barcolor, data);
         	});
     	}
-    	if ($(".view.smallbutton.active").attr('id') == 's2') {
+    	if ($(".viewselectorbutton.active").attr('id') == 's2') {
         	datamanager.readFile(path, function(data){ 
             	wordcloudview.generateCloud(data, anchor);
         	});
     	}
-    	if ($(".view.smallbutton.active").attr('id') == 's6') {
+    	if ($(".viewselectorbutton.active").attr('id') == 's6') {
         	$("#s5").addClass('unable').css("pointer-events", "none");
         	$(anchor).append('<h3 class="tableheading">Quelldatei: ' + path + '</h3>')
         	$(anchor).append('<table id="' + anchor.slice(1) + '_table' + '" class="valtable"><tr><th></th><th></th><th></th></tr></table>');
@@ -286,7 +236,7 @@ Visualizer.VisualizerView = function(){
         	});
         	return;
     	}
-    	if ($(".view.smallbutton.active").attr('id') == 's3') {
+    	if ($(".viewselectorbutton.active").attr('id') == 's3') {
         	$("#partei_both").addClass('unable').css("pointer-events", "none");
         	datamanager.readFile(path, function(data){ 
             	treemapview.generateTreemap(data, anchor);

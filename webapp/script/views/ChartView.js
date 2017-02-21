@@ -30,14 +30,6 @@ return frequency_list;
 _generateChart = function (x, y, anchor, barcolor){
 var chart = c3.generate({
     bindto: anchor,
-    size: {
-     height: _calculateTransformationY(chartheight),
-     //height: chartheight,
-     width: _calculateTransformationX(chartwidth)
-    },
-    padding: {
-      bottom: _calculateTransformationY(20)
-    },
     data: {
 
       columns: [
@@ -84,16 +76,6 @@ var chart = c3.generate({
     }
 });
 
-},
-
-_calculateTransformationX = function (width){
-
-    return ($(window).width()*(width/100));
-},
-
-_calculateTransformationY = function (height){
-
-    return ($(window).height()*(height/100));
 };
 
 
