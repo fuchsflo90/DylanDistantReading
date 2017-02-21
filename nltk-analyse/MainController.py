@@ -28,8 +28,8 @@ def main():
 
     # **********************************Untersuchungsintervalle v. Dylans Werk******************************************#
     # intervalls = [(1960, 1970), (1971, 1980), (1981, 1990), (1991, 2000), (2001, 2020)]
-    year_start = 1980
-    year_end = 1990
+    year_start = 2000
+    year_end = 2020
     year_end_corpus = 2020
 
     path_property = str(year_start) + '-' + str(year_end)
