@@ -78,6 +78,16 @@ var chart = c3.generate({
 
 };
 
+/*_calculateTransformationX = function (width){
+
+    return ($(window).width()*(width/100));
+},
+
+_calculateTransformationY = function (height){
+
+    return ($(window).height()*(height/100));
+};*/
+
 
 that.init = init;
 that.generateChartView = generateChartView;
