@@ -4,10 +4,10 @@ import os
 
 class CSVwriter(object):
     @staticmethod
-    def write_ngrams(method_name, corpus_name, stopwordfilter, minhits, maxlength, datatype, data):
+    def write_ngrams(method_name, corpus_name, stopwordfilter, minhits, maxlength, datatype, data, intervall):
         ngram_length = len(data[0][0])
         #print("Gesamt: " + str(len(data)) + " Reihe 1: " + str(ngram_length))
-        path = './output/data/' + datatype + '/' + 'min' + str(minhits) + '/' + corpus_name + '/' + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/'
+        path = './output/' + intervall + '/' + datatype + '/' + 'min' + str(minhits) + '/' + corpus_name + '/' + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/'
         print("___________________Erzeuge " + datatype + '/' + 'min' + str(minhits) + '/' + corpus_name + '/' + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/' + str(ngram_length) +'-gram.csv')
         if not os.path.exists(path):
             os.makedirs(path)
@@ -33,8 +33,8 @@ class CSVwriter(object):
             csv_file.close()
 
     @staticmethod
-    def write_text_differences(method_name, corpus_name, stopwordfilter, maxlength, datatype, data, filename):
-        path = './output/data/' + datatype + '/' + corpus_name + '/' + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/'
+    def write_text_differences(method_name, corpus_name, stopwordfilter, maxlength, datatype, data, filename, intervall):
+        path = './output/' + intervall + '/' + datatype + '/' + corpus_name + '/' + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/'
         print("___________________Erzeuge " + datatype + '/' + corpus_name + '/' + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/' + filename +'.csv')
         if not os.path.exists(path):
             os.makedirs(path)
@@ -49,8 +49,8 @@ class CSVwriter(object):
             csv_file.close()
 
     @staticmethod
-    def write_context(method_name, corpus_name, maxlength, datatype, data):
-        path = './output/data/' + datatype + '/' + corpus_name + '/' + method_name + '/'
+    def write_context(method_name, corpus_name, maxlength, datatype, data, intervall):
+        path = './output/' + intervall + '/' + datatype + '/' + corpus_name + '/' + method_name + '/'
         print("___________________Erzeuge " + datatype + '/' + corpus_name + '/' + method_name + '/' + data[0][0] +'.csv')
         if not os.path.exists(path):
             os.makedirs(path)
@@ -65,8 +65,8 @@ class CSVwriter(object):
             csv_file.close()
 
     @staticmethod
-    def write_words_rank(method_name, corpus_name, stopwordfilter, maxlength, datatype, data, filename):
-        path = './output/data/' + datatype + '/' + corpus_name + '/' + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/'
+    def write_words_rank(method_name, corpus_name, stopwordfilter, maxlength, datatype, data, filename, intervall):
+        path = './output/' + intervall + '/' + datatype + '/' + corpus_name + '/' + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/'
         print("___________________Erzeuge " + datatype + '/' + corpus_name + '/'  + 'stopwords_' + str(stopwordfilter) + '/' + method_name + '/' + filename +'.csv')
         if not os.path.exists(path):
             os.makedirs(path)

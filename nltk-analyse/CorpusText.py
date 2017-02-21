@@ -27,7 +27,7 @@ class CorpusText(object):
         return text
 
     @staticmethod
-    def pos_rank_absolut_freq(stopwords, corpus_name, text, postag, filename):
+    def pos_rank_absolut_freq(stopwords, corpus_name, text, postag, filename, path_property):
         if stopwords:
             #text = CorpusText._apply_stopwords_to_pos(text)
             text = CorpusText._apply_stopwords(text)
@@ -39,7 +39,7 @@ class CorpusText(object):
         freq = list(freq.items())
         freq.sort(key=lambda tup: tup[1], reverse=True)
         from CSVwriter import CSVwriter
-        CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq, filename)
+        #CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq, filename, path_property)
         return freq
 
     @staticmethod
@@ -54,7 +54,7 @@ class CorpusText(object):
         freq_list = []
         for entry in freq:
             freq_list.append((entry[0][0] + " " + entry[0][1], entry[1]))
-        CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq_list, filename)
+        #CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq_list, filename)
         return freq
 
     @staticmethod
@@ -69,7 +69,7 @@ class CorpusText(object):
         freq_list = []
         for entry in freq:
             freq_list.append((entry[0][0] + " " + entry[0][1] + " " + entry[0][2], entry[1]))
-        CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq_list, filename)
+        #CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq_list, filename)
         #freq.plot(50, cumulative=False)
         return freq
 

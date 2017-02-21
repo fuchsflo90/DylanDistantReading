@@ -1,197 +1,113 @@
 __author__ = 'Colin Sippl'
 # -*- coding: utf-8 -*-
-from FileReader import FileReader
-from POSManager import POSManager
+# lese Songtext-Korpusdatei
+from bs4 import BeautifulSoup
 from CorpusText import CorpusText
-from NgramFinder import NgramFinder
-from JSONWriter import JSONWriter
-from nltk import ContextIndex
 from CSVwriter import CSVwriter
-import math
+from NgramFinder import NgramFinder
+from FileReader import FileReader
+from CorpusReader import CorpusReader
+from nltk.stem.lancaster import LancasterStemmer
+from nltk.corpus.reader import TaggedCorpusReader
+import nltk
+import re
 
-#Vergleichspartei a)
-name_a = "fp\xf6_XXV"
-#Vergleichspartei b)
-name_b = "gr\xfcne_XXV"
-#name_b = "glawischnig"
+# Name der Korpusdatei
+file_name = "Corpus_Dylan452.xml"
+# Pfad der Korpusdatei
 corpus_path = './corpus/'
 
-#Tagset: http://www.ims.uni-stuttgart.de/forschung/ressourcen/lexika/TagSets/stts-table.html
+# ANC-Referenzkorpus-Dateien
+anc_token_count = './corpus/ANC/ANC-token-count.txt'
+# Lemmata u. POS-Tags enthalten
+anc_written_count = './corpus/ANC/ANC-written-count.txt'
+anc_spoken_count = './corpus/ANC/ANC-spoken-count.txt'
+anc_all_count = './corpus/ANC/ANC-all-count.txt'
 
 def main():
-    #***********************************************Lese Korpusdateien ein**********************************************
-    #************************************Erstelle Metafinormationen zu den Korpora**************************************
-    reader_a = FileReader(name_a, corpus_path)
-    reader_b = FileReader(name_b, corpus_path)
+    # ************************************************Lese Dylan-Korpusdatei********************************************#
+    reader = CorpusReader(file_name, corpus_path)
+    reader.read_file()
+    reader.parse_file()
 
-    # Parse POS-Korpus-Dateien
-    pos_manager = POSManager()
-    pos_manager.add_corpus_files(name_a, reader_a.return_pos_file(), reader_a.return_raw_text_lines())
-    pos_manager.add_corpus_files(name_b, reader_b.return_pos_file(), reader_b.return_raw_text_lines())
+    # **********************************Untersuchungsintervalle v. Dylans Werk******************************************#
+    # intervalls = [(1960, 1970), (1971, 1980), (1981, 1990), (1991, 2000), (2001, 2020)]
+    year_start = 1980
+    year_end = 1990
+    year_end_corpus = 2020
 
-    # Ausgabe der Korpus-Texte tokenisiert
-    corpus_a = reader_a.return_raw_text_tokens()
-    #corpus_a = reader_a.return_pos_file()
-    corpus_b = reader_b.return_raw_text_tokens()
-    #corpus_b = reader_a.return_pos_file()
+    path_property = str(year_start) + '-' + str(year_end)
 
-    # Berechne Anzahl der Tokens pro Korpus-Text
-    length_a = CorpusText.count_tokens(corpus_a)
-    length_b = CorpusText.count_tokens(corpus_b)
+    # *****************************************Erstelle Untersuchungskorpora********************************************#
+    untersuchungsbereich = reader.select_taggedsongs_from_author("Bob Dylan", year_start, year_end)
+    # print(untersuchungsbereich)
+    kontrollbereich = reader.select_taggedsongs_from_author("Bob Dylan", year_end + 1, year_end_corpus)
+    # kontrollbereich = nltk.word_tokenize(kontrollbereich)
 
-    #Metafinormationen zu den Korpora
-    # Name, Tokens, Sätze
-    meta_info = {}
-    meta_info['partei_a'] = {'name' : name_a, 'tokens':length_a, 'sentences' : len(reader_a.return_raw_text_lines()),
-                             'corpus' : './corpus/'+ name_a + '.txt', 'pos' : './corpus/POS_' + name_a + '.txt'}
-    meta_info['partei_b'] = {'name' : name_b, 'tokens':length_b, 'sentences' : len(reader_b.return_raw_text_lines()),
-                             'corpus' : './corpus/'+ name_b + '.txt', 'pos' : './corpus/POS_' + name_b + '.txt'}
-    meta_info['general'] = {'tagger': 'Stanford NLP German-DEWAC', 'gp' : 'XXV', 'beginn' : '16.12.2013'}
-    JSONWriter.writeJSONData(meta_info)
+    # *************************************Erstelle Metafinormationen zu den Korpora************************************#
+    length_a = CorpusText.count_tokens(untersuchungsbereich)
+    length_b = CorpusText.count_tokens(kontrollbereich)
+    # print("Anzahl der Tokens des Untersuchungskorpus: " + str(length_a))
+    # print("Anzahl der Tokens des Untersuchungskorpus: " + str(len(CorpusText.pos_rank_absolut_freq(False, "dylan_int", untersuchungsbereich, "", "test"))))
+    # print("Anzahl der Tokens des Vergleichskorpus: " + str(length_b))
 
-    #*****************************************LOG-LIKELIHOOD KORPUSVERGLEICH********************************************
-    #*******************************         Vergleich der Worthäufigkeiten         ************************************
-    #*******************************      Vergleich der Wortartenhäufigkeiten(POS)  ************************************
-    #*******************************Vergleich der Bigramm- und Trigramm-Häufigkeiten************************************
-    #CorpusText.bigrams_rank_absolut_freq(False, name_a, corpus_a, 'bigrams')
-    #CorpusText.bigrams_rank_absolut_freq(False, name_b, corpus_b, 'bigrams')
-    #CorpusText.bigrams_rank_absolut_freq(True, name_a, corpus_a, 'bigrams')
-    #CorpusText.bigrams_rank_absolut_freq(True, name_b, corpus_b, 'bigrams')
-
-    # CorpusText.trigrams_rank_absolut_freq(False, name_a, corpus_a, 'trigrams')
-    # CorpusText.trigrams_rank_absolut_freq(False, name_b, corpus_b, 'trigrams')
-    # CorpusText.trigrams_rank_absolut_freq(True, name_a, corpus_a, 'trigrams')
-    # CorpusText.trigrams_rank_absolut_freq(True, name_b, corpus_b, 'trigrams')
-
-    #Bigramme
-    #*****Stoppwortliste: NEIN
-    difvals = CorpusText.calculate_significant_bigram_differences(False, corpus_a, corpus_b)
-    CSVwriter.write_text_differences("significant_text_differences", name_a, False, 300, "words", difvals, 'bigrams')
-    difvals = CorpusText.calculate_significant_bigram_differences(False, corpus_b, corpus_a)
-    CSVwriter.write_text_differences("significant_text_differences", name_b, False, 300, "words", difvals, 'bigrams')
-
-    #*****Stoppwortliste: JA
-    difvals = CorpusText.calculate_significant_bigram_differences(True, corpus_a, corpus_b)
-    CSVwriter.write_text_differences("significant_text_differences", name_a, True, 300, "words", difvals, 'bigrams')
-    difvals = CorpusText.calculate_significant_bigram_differences(True, corpus_b, corpus_a)
-    CSVwriter.write_text_differences("significant_text_differences", name_b, True, 300, "words", difvals, 'bigrams')
-
-    #Trigramme
-    #*****Stoppwortliste: NEIN
-    #difvals = CorpusText.calculate_significant_trigram_differences(False, corpus_a, corpus_b)
-    #CSVwriter.write_text_differences("significant_text_differences", name_a, False, 300, "words", difvals, 'trigrams')
-    #difvals = CorpusText.calculate_significant_trigram_differences(False, corpus_b, corpus_a)
-    #CSVwriter.write_text_differences("significant_text_differences", name_b, False, 300, "words", difvals, 'trigrams')
-
-    #*****Stoppwortliste: JA
-    #difvals = CorpusText.calculate_significant_trigram_differences(True, corpus_a, corpus_b)
-    #CSVwriter.write_text_differences("significant_text_differences", name_a, True, 300, "words", difvals, 'trigrams')
-    #difvals = CorpusText.calculate_significant_trigram_differences(True, corpus_b, corpus_a)
-    #CSVwriter.write_text_differences("significant_text_differences", name_b, True, 300, "words", difvals, 'trigrams')
-
-    #Signifikante Unterschiede der Worthäufigkeiten (alle Wortarten)
-    #*****Stoppwortliste: NEIN
-    fredDist_a_no_stopwords = CorpusText.word_rank_absolut_freq(False, name_a, corpus_a, 'all_words')
-    fredDist_b_no_stopwords = CorpusText.word_rank_absolut_freq(False, name_b, corpus_b, 'all_words')
-
-    difvals = CorpusText.calculate_significant_word_differences(fredDist_a_no_stopwords, fredDist_b_no_stopwords, length_a, length_b)
-    CSVwriter.write_text_differences("significant_text_differences", name_a, False, 300, "words", difvals, 'all_words')
-    # vice versa
-    difvals = CorpusText.calculate_significant_word_differences(fredDist_b_no_stopwords, fredDist_a_no_stopwords, length_a, length_b)
-    CSVwriter.write_text_differences("significant_text_differences", name_b, False, 300, "words", difvals, 'all_words')
-
-    #*****Stoppwortliste: JA
-    fredDist_a = CorpusText.word_rank_absolut_freq(True, name_a, corpus_a, 'all_words')
-    fredDist_b = CorpusText.word_rank_absolut_freq(True, name_b, corpus_b, 'all_words')
+    # ******Stoppwortliste: JA
+    fredDist_a = CorpusText.pos_rank_absolut_freq(True, "dylan_int", untersuchungsbereich, "", 'all_words',
+                                                  path_property)
+    fredDist_b = CorpusText.pos_rank_absolut_freq(True, "dylan_rest", kontrollbereich, "", 'all_words', path_property)
 
     difvals = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_b, length_a, length_b)
-    CSVwriter.write_text_differences("significant_text_differences", name_a, True, 300, "words", difvals, 'all_words')
+    CSVwriter.write_text_differences("significant_text_differences", "dylan_int", True, 300, "words", difvals,
+                                     'all_words', path_property)
     # vice versa
-    difvals = CorpusText.calculate_significant_word_differences(fredDist_b, fredDist_a, length_b, length_a)
-    CSVwriter.write_text_differences("significant_text_differences", name_b, True, 300, "words", difvals, 'all_words')
+    # difvals = CorpusText.calculate_significant_word_differences(fredDist_b, fredDist_a,
+    #                                                     length_a, length_b)
+    # CSVwriter.write_text_differences("significant_text_differences", "dylan_rest", True, 300, "words", difvals, 'all_words', path_property)
 
-    #Signifikante Unterschiede der Worthäufigkeiten (Wortartenfilterung)
-    # args = [('N', 'nouns'),('NE', 'nouns_ne'),('NN', 'nouns_nn'),('VVINF', 'verbs_inf'),('VVIZU', 'verbs_zu'),
-    #         ('VVIMP', 'verbs_imp'), ('VM', 'verbs_mod'), ('PPOS', 'pronouns_pos'), ('ADJ', 'adjectives'),
-    #         ('ADJA', 'adjectives_at'),('CARD', 'numbers'), ('FM', 'fm'), ('ADJD', 'adjectives_ad')]
-    #
-    # for arg in args:
-    #     #without stopwords
-    #     fredDist_a = CorpusText.pos_rank_absolut_freq(False, name_a, reader_a.return_tagged_tokens(), arg[0], arg[1])
-    #     fredDist_b = CorpusText.pos_rank_absolut_freq(False, name_b, reader_b.return_tagged_tokens(), arg[0], arg[1])
-    #     difvals2 = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_b, length_a, length_b)
-    #     CSVwriter.write_text_differences("significant_text_differences", name_a, False, 300, "words", difvals2, arg[1])
-    #     # vice versa
-    #     difvals2 = CorpusText.calculate_significant_word_differences(fredDist_b, fredDist_a, length_b, length_a)
-    #     CSVwriter.write_text_differences("significant_text_differences", name_b, False, 300, "words", difvals2, arg[1])
-    #
-    #     #with stopwords
-    #     fredDist_a = CorpusText.pos_rank_absolut_freq(True, name_a, reader_a.return_tagged_tokens(), arg[0], arg[1])
-    #     fredDist_b = CorpusText.pos_rank_absolut_freq(True, name_b, reader_b.return_tagged_tokens(), arg[0], arg[1])
-    #     difvals2 = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_b, length_a, length_b)
-    #     CSVwriter.write_text_differences("significant_text_differences", name_a, True, 300, "words", difvals2, arg[1])
-    #     # vice versa
-    #     difvals2 = CorpusText.calculate_significant_word_differences(fredDist_b, fredDist_a, length_b, length_a)
-    #     CSVwriter.write_text_differences("significant_text_differences", name_b, True, 300, "words", difvals2, arg[1])
+    # print([token[0] for token in untersuchungsbereich])
 
+    #*******************************************************Dylan vs. ANC *********************************************#
+    #*************************************************** + LEMMATISIERUNG + *******************************************#
 
-    #*************************************************Gemeinsamer Wortkontext*******************************************
-    #Keine Implementierung in der Web-Darstellung
-    #http://stackoverflow.com/questions/14287993/words-generated-from-text-similar-and-contextindex-similar-words-in-nltk-sor
-    """
-    c_list = ContextIndex(reader_a.return_raw_text_tokens())
-    c_word = c_list.word_similarity_dict('Asylwerber')
-    c_word = sorted(c_word.items(), key=lambda word: word[1], reverse=True)
-    CSVwriter.write_context("word_similarity_dict", name_a, 10, "context", c_word)
+    st = LancasterStemmer()
+    untersuchungsbereich_lem = [ ( (st.stem(a)) ,b) for (a,b) in untersuchungsbereich ]
+    n_lexems_dylan = CorpusText.count_tokens(untersuchungsbereich_lem)
+    print(str( n_lexems_dylan ) + " vs. " + str(length_a))
+    print(untersuchungsbereich_lem)
+    fredDist_lem = CorpusText.pos_rank_absolut_freq(True, "dylan_int", untersuchungsbereich_lem, "", 'all_words',
+                                                  path_property)
 
-    c_list = ContextIndex(reader_b.return_raw_text_tokens())
-    c_word = c_list.word_similarity_dict('Asylwerber')
-    c_word = sorted(c_word.items(), key=lambda word: word[1], reverse=True)
-    CSVwriter.write_context("word_similarity_dict", name_b, 10, "context", c_word)
-    """
+    fredDist_anc = FileReader.read_ANC_file(anc_all_count, 1, 3)
+    print(fredDist_anc)
+    total_anc_words = sum(val[1] for val in fredDist_anc)
+    difvals = CorpusText.calculate_significant_word_differences(fredDist_lem, fredDist_anc,  n_lexems_dylan, total_anc_words)
+    CSVwriter.write_text_differences("significant_text_differences", "dylan_anc", True, 300, "words", difvals,
+                                     'all_words', path_property)
 
-    #******************************************************Finde N-Gramme***********************************************
-    #*****************************************************!!!!ACHTUNG!!!!***********************************************
-    #*****************************Berechungszeit kann unter Umständen länger als 24h dauern!!!**************************
+    # ******************************************************************************************************************#
+
+    # Signifikante Unterschiede der Worthäufigkeiten (Wortartenfilterung)
+    args = [('NN', 'nouns'), ('NNP', 'proper_nouns'), ('VB', 'verbs'), ('JJ', 'adjectives')]
+
+    for arg in args:
+        # with stopwords
+        fredDist_a = CorpusText.pos_rank_absolut_freq(True, "dylan_int", untersuchungsbereich, arg[0], arg[1],
+                                                      path_property)
+        fredDist_b = CorpusText.pos_rank_absolut_freq(True, "dylan_rest", kontrollbereich, arg[0], arg[1],
+                                                      path_property)
+        difvals2 = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_b, length_a, length_b)
+        CSVwriter.write_text_differences("significant_text_differences", "dylan_int", True, 300, "words", difvals2,
+                                         arg[1], path_property)
+        # vice versa
+        # difvals2 = CorpusText.calculate_significant_word_differences(fredDist_b, fredDist_a, length_b, length_a)
+        # CSVwriter.write_text_differences("significant_text_differences", "dylan_rest", True, 300, "words", difvals2, arg[1], path_property)
+
+    # ******************************************************Finde N-Gramme**********************************************#
+    # *****************************************************!!!!ACHTUNG!!!!**********************************************#
+    # *****************************Berechungszeit kann unter Umständen sehr lange dauern!!!*****************************#
     # Details siehe Klasse NgramFinder
-    NgramFinder.find(corpus_a, name_a)
-    NgramFinder.find(corpus_b, name_b)
-
-
-    #******************************************************Wortformengruppen********************************************
-    # Keine Implementierung in der Web-Darstellung
-    # word_pattern = ('die', 'Zahl', 'der', 'N')
-    # Kampf gegen X
-    # wir sind in
-    # wir sind f\xfcr
-    # vgl. Bubenhofer (2009;2013) "Sprachgebrauchsmuster"
-    # http://mbostock.github.io/d3/talk/20111018/tree.html
-    """
-    word_pattern = ('Kampf', 'gegen', 'ART', 'NN')
-    ngrams = pos_manager.return_complex_ngram(name_a, word_pattern)
-    print_ngrams(ngrams)
-    ngrams = pos_manager.return_complex_ngram(name_b, word_pattern)
-    print_ngrams(ngrams)
-    word_pattern = ('Kampf', 'gegen', 'NN')
-    ngrams = pos_manager.return_complex_ngram(name_a, word_pattern)
-    print_ngrams(ngrams)
-    ngrams = pos_manager.return_complex_ngram(name_b, word_pattern)
-    print_ngrams(ngrams)
-    """
-
-
-
-def print_ngrams(ngrams):
-    for line in ngrams:
-        ngramstring = ""
-        grammastring = ""
-        for a, b in line:
-            ngramstring = ngramstring + a + " "
-            grammastring = grammastring + b + " "
-        print(ngramstring)
-        print(grammastring)
-        print("\n")
-
+    NgramFinder.find(untersuchungsbereich, "dylan_int", path_property)
+    # NgramFinder.find(corpus_b, name_b)
 
 if __name__ == '__main__':
     print('This program is being run by itself')

@@ -64,10 +64,10 @@ class NgramFinder:
     #            NgramFinder._find_ngrams(entry[0], text, corpus_name, entry[1], entry[2], i, False)
 
     @staticmethod
-    def find(text, corpus_name):
+    def find(text, corpus_name, path_property):
         for entry in args:
             # Ignore stopwords
-            NgramFinder._find_ngrams(entry[0], text, corpus_name, entry[1], entry[2], min_freq, True)
+            NgramFinder._find_ngrams(entry[0], text, corpus_name, entry[1], entry[2], min_freq, True, path_property)
             # Leave stopwords
             #NgramFinder._find_ngrams(entry[0], text, corpus_name, entry[1], entry[2], min_freq, False)
 
@@ -91,7 +91,7 @@ class NgramFinder:
         return finder
 
     @staticmethod
-    def _find_ngrams(type, text, corpus_name, method, maxhits, minhits, stopwordfilter):
+    def _find_ngrams(type, text, corpus_name, method, maxhits, minhits, stopwordfilter, path_property):
         #stopwordfilter = False
         methodname = method.__name__
         #text = NgramFinder._clean_text(text)
@@ -105,7 +105,7 @@ class NgramFinder:
         finder.apply_freq_filter(minhits)
         from CSVwriter import CSVwriter
         #print(finder.score_ngrams(method))
-        CSVwriter.write_ngrams(methodname, corpus_name, stopwordfilter, minhits, maxhits, 'ngram', finder.score_ngrams(method))
+        CSVwriter.write_ngrams(methodname, corpus_name, stopwordfilter, minhits, maxhits, 'ngram', finder.score_ngrams(method), path_property)
 
     @staticmethod
     def _read_external_stopwords():

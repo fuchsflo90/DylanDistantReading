@@ -3,7 +3,6 @@ __author__ = 'Colin Sippl'
 # lese POS-Korpusdatei
 # http://www.nltk.org/api/nltk.corpus.reader.html
 from nltk.corpus.reader import TaggedCorpusReader
-from SpeechObject import SpeechObject
 import nltk
 import csv
 
@@ -14,7 +13,6 @@ class FileReader(object):
         print("...Pfad der einzulesenden Korpusdatei: \"" + corpus_path + "\"...")
         print("...Starte Einlesen der Korpusdateien von \"" + self.file_name.upper() + "\"...")
         self.read_pos_file()
-        self.read_raw_text_by_line()
 
     def read_pos_file(self):
         self.pos_file = TaggedCorpusReader(self.corpus_path, fileids=None, encoding='utf8').tagged_sents('POS_' + self.file_name + '.txt')
@@ -24,12 +22,6 @@ class FileReader(object):
 
     def return_tagged_tokens(self):
         return [item for sublist in self.pos_file for item in sublist]
-
-    def read_raw_text_by_line(self):
-        self.sent_tokenize_list = SpeechObject()
-        with open(self.corpus_path + self.file_name + '.txt', encoding="utf8") as neu_sentence:
-            for line in neu_sentence:
-                self.sent_tokenize_list.add_quote(line)
 
     def return_raw_text_lines(self):
         return self.sent_tokenize_list.return_all_quotes()
@@ -42,9 +34,9 @@ class FileReader(object):
         return nltk.Text(nltk.word_tokenize(self.pos_file))
 
     @staticmethod
-    def read_ANC_freqDist():
+    def read_ANC_file(path, col1, col2):
         lines = list()
-        with open('./corpus/ANC/ANC-token-count.txt', 'r', encoding="utf8") as tsv:
+        with open(path, 'r', encoding="utf8") as tsv:
             for line in tsv:
                 lines.append(line.strip().split('\t'))
-        return [(line[0], int(line[1])) for line in lines if len(line) == 3]
+        return [(line[col1], int(line[col2])) for line in lines if len(line) == 3 or len(line) == 4]
