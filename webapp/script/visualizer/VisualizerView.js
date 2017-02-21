@@ -74,6 +74,18 @@ Visualizer.VisualizerView = function(){
 		});
 
 		$("#methodselector").change(function() {
+            $(".mbutton").removeClass("active");
+            $("#methodselector option:selected").addClass("active");
+
+            if($("#methodselector option:selected").attr("value") == "significant_text_differences"){
+                $(".viewselector2").addClass("hide");
+                $("#posselector").removeClass("hide");
+            }
+            if($("#methodselector option:selected").attr("value") == "ngrams"){
+                $(".viewselector2").removeClass("hide");
+                $("#posselector").addClass("hide");
+            }
+
     		$(that).trigger("reload");
 		});
 
@@ -85,15 +97,21 @@ Visualizer.VisualizerView = function(){
     		$(that).trigger("reload");
 		});
 
+        $("#testselector").change(function() {
+            $(that).trigger("reload");
+        });
+
 		$("#stopwordselector").change(function() {
     		$(that).trigger("reload");
 		});
 
-		$(".pos.smallbutton").click(function() {
-    		$(".pos.smallbutton").removeClass('active');
-    		$(this).addClass('active');
+		$("#posselector").change(function() {
     		$(that).trigger("reload");
 		});
+
+        $("#timeselector").change(function() {
+            $(that).trigger("reload");
+        });
 
 		$('#s5').click(function() {
 
@@ -201,22 +219,7 @@ Visualizer.VisualizerView = function(){
 
 		datamanager = DiscourseAnalysis.Datamanager;
 		datamanager.init(300);
-		
-		if (path.length == 2) {
-        	for (var i = 0; i < path.length; i++) {
-            	barcolor = '#1f77b4';
-            	backgroundcolor= 'rgba(31,119,180, 0.05)';
-            	if (i > 0) {
-                	$('.chart').css('float', 'left');
-                	anchor = '#chart' + i.toString();
-                	barcolor = '#77b41f';
-                	backgroundcolor = 'rgba(119,180,31, 0.05)';
-            	}
-            	generateView(path[i]);
-        	}
-        	return;
-    	}
-  
+    
     	if ($(".viewselectorbutton.active").attr('id') == 's1') {
         	datamanager.readFile(path, function(data){ 
             	chartview.generateChartView(anchor, barcolor, data);

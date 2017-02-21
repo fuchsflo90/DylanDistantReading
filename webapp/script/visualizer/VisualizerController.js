@@ -12,7 +12,6 @@ Visualizer.VisualizerController = function(){
 		visualizerModel = Visualizer.VisualizerModel();
 		visualizerView = Visualizer.VisualizerView();
 
-		selectFile();
 		bindTriggers();
 
 		visualizerView.init();
@@ -33,43 +32,24 @@ Visualizer.VisualizerController = function(){
 
 	var selectFile = function(){
 
-		var filepath = "";
-
-    	if ($('.button.active').attr('value') == "both") {
-        	selectFiles();
-    	}
+		filepath = "file not found";
    
-    	if ($('.mbutton.active').attr('value') == "ngrams") {
-        	filepath = "./ngram/" + $('#frequencyselector').val() + "/" + $('.button.active').attr('value') + "_XXV/" + $('#stopwordselector').val() + "/" + $('#methodselector').val() + "/" + $('#lengthselector').val() + ".csv";
-        	path = filepath;
-    	}
-    
-    	filepath = "./words/" + "dylan_rest/" + "stopwords_True" + "/" + $('.mbutton.active').attr('value') + "/" + $(".pos.smallbutton.active").attr('title') + ".csv";
-    	console.log("datei geladen:" + filepath);
-    	path = filepath;
-	};
-
-	var selectFiles = function(){
-
-		var filepaths = new Array(2);
-
-    	if ($('.mbutton.active').attr('value') == "ngrams") {
-        	filepaths[0] = "./ngram/" + $('#frequencyselector').val() + "/" + "fpö" + "_XXV/" + $('#stopwordselector').val() + "/" + $('#methodselector').val() + "/" + $('#lengthselector').val() + ".csv";
-        	filepaths[1] = "./ngram/" + $('#frequencyselector').val() + "/" + "grüne" + "_XXV/" + $('#stopwordselector').val() + "/" + $('#methodselector').val() + "/" + $('#lengthselector').val() + ".csv";
-        	path = filepath;
+    	if ($('.mbutton.active').attr('value') == "significant_text_differences") {
+        	filepath = "./data/" + $('#timeselector option:selected').attr('value') + "/words/dylan_int/stopwords_True" + "/significant_text_differences/" + $('#posselector option:selected').attr('value') + ".csv";
     	}
 
-        filepaths[0] = "./words/" + $('#partei_a').attr('value') + "_XXV/" + $('#stopwordselector').val() + "/" + $('.mbutton.active').attr('value') + "/" + $(".pos.smallbutton.active").attr('title') + ".csv";
-        filepaths[1] = "./words/" + $('#partei_b').attr('value') + "_XXV/" + $('#stopwordselector').val() + "/" + $('.mbutton.active').attr('value') + "/" + $(".pos.smallbutton.active").attr('title') + ".csv";
-
-    	path = filepath;
+    	if ($('.mbutton.active').attr('value') == "ngrams") {
+        	filepath = "./data/" + $('#timeselector option:selected').attr('value') + "/ngram/min3/dylan_int/stopwords_True" + "/" + $('#testselector option:selected').attr('value')+ "/" + $("#lengthselector option:selected").attr("value") + ".csv";
+    	}
+        
+        console.log("versuche datei zu laden:" + filepath);
 	};
 
 	var forceReload = function(){
 
 		visualizerView.clearChart();
 		selectFile();
-		visualizerView.generateView(path);
+		visualizerView.generateView(filepath);
 
 	};
 

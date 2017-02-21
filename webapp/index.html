@@ -29,58 +29,48 @@
             </div>
 
             <select class="smallmenu" id="posselector">
-                    <option class="smallbutton pos" id="w1" title="all_words">Alle Tokens</option>
-                    <option class="smallbutton pos" id="w2" title="nouns">Nomen</option>
-                    <option class="smallbutton pos" id="w3" title="nouns_nn">Appellativa</option>
-                    <option class="smallbutton pos" id="w4" title="nouns_ne">Eigennamen</option>
-                    <option class="smallbutton pos" id="w5" title="adjectives">Adjektive</option>
-                    <option class="smallbutton pos" id="w6" title="adjectives_at">Attributive Adjektive</option>
-                    <option class="smallbutton pos" id="w7" title="adjectives_ad">Adverbiale u. prädikative Adjektive</option>
-                    <option class="smallbutton pos" id="w9" title="verbs_inf">Vollverben Infinitiv</option>
+                    <option class="smallbutton pos active" id="w1" value="all_words" selected>Alle Tokens</option>
+                    <option class="smallbutton pos" id="w2" value="nouns">Nomen</option>
+                    <option class="smallbutton pos" id="w4" value="proper_nouns">Eigennamen</option>
+                    <option class="smallbutton pos" id="w5" value="adjectives">Adjektive</option>
+                    <option class="smallbutton pos" id="w9" value="verbs">Verben</option>
             </select>
-
-            <table class="menu hide" id="menu_ngram">
-                <tr>
-                    <th>Minimale Frequenz</th>
-                    <th>Methode</th>
-                    <th>N-Gramm-Länge</th>
-                </tr>
-                <tr>
-                    <td>
-                        <select id="frequencyselector">
-                            <option value="min1">Einmaliges Auftreten</option>
-                            <option style="font-weight:bold" value="min2" selected>Doppeltes Auftreten</option>
-                            <option value="min3">Dreifaches Auftreten</option>
-                            <option value="min3">Vierfaches Auftreten</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="methodselector">
-                            <option value="raw_freq">Absolute Häufigkeit</option>
-                            <option value="chi_sq">Chi-Quadrat-Test</option>
-                            <option value="jaccard">Jaccard-Test</option>
-                            <option value="likelihood_ratio">Likelihood-Quotienten-Test</option>
-                            <option value="pmi">Pointwise Mutual Information</option>
-                            <option style="font-weight:bold" value="poisson_stirling" selected>Poisson-Stirling-Test</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="lengthselector">
-                            <option style="font-weight:bold" value="2-gram" selected>Bigramme</option>
-                            <option value="3-gram">Trigramme</option>
-                            <option value="4-gram">Quadgramme</option>
-                        </select>
-                    </td>
-                </tr>
-            </table>
 
             <div class="btn-group navbar-right" role="group">
                 <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Tabellenansicht" id="s6">Tabelle</button>
                 <button type="button" class="btn btn-default viewselectorbutton" title="CSV-Datei herunterladen (Datenquelle)" id="s4">Download CSV</button>
                 <button type="button" class="btn btn-default viewselectorbutton" title="PNG-Bild herunterladen" id="s5">Download PNG</button>
             </div>
-
-
+        </div>
+        <div class="timesettings">
+            <span>Untersuchtes Subkorpus</span>
+            <select id="timeselector">
+                <option value="1960-1970" selected>1960er Jahre</span>
+                <option value="1970-1980">1970er Jahre</span>
+                <option value="1980-1990">1980er Jahre</span>
+                <option value="1990-2000">1990er Jahre</span>
+            </select>
+        </div>
+        <div class="menu viewselector2 hide" id="menu_ngram">
+            <span>Minimale Frequenz</span>
+            <select id="frequencyselector">
+                <option value="min1">Einmaliges Auftreten</option>
+                <option value="min2" selected>Doppeltes Auftreten</option>
+                <option value="min3">Dreifaches Auftreten</option>
+                <option value="min3">Vierfaches Auftreten</option>
+            </select>
+            <span>Methode</span>
+            <select id="testselector">
+                <option value="chi_sq" selected>Chi-Quadrat-Test</option>
+                <option value="jaccard">Jaccard-Test</option>
+                <option value="poisson_stirling">Poisson-Stirling-Test</option>
+            </select>
+            <span>N-Gramm-Länge</span>
+            <select id="lengthselector">
+                <option value="2-gram" selected>Bigramme</option>
+                <option value="3-gram">Trigramme</option>
+                <option value="4-gram">Quadgramme</option>
+            </select>
         </div>
 
         <div id="contentwrapper">
