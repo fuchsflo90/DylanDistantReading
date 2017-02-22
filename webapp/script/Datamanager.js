@@ -1,7 +1,7 @@
 DiscourseAnalysis.Datamanager = (function() {
 
 var that = {},
-dataSlice = 50,
+dataSlice = 100,
 data,
 
 init = function (dataSlice){

@@ -7,8 +7,8 @@ chartwidth,
 
 init = function (){
   rotate = true;
-  chartheight = 405;
-  chartwidth = 47;
+  chartheight = 200;
+  //chartwidth = 47;
 },
 
 generateChartView = function (anchor, barcolor, data){
@@ -30,6 +30,14 @@ return frequency_list;
 _generateChart = function (x, y, anchor, barcolor){
 var chart = c3.generate({
     bindto: anchor,
+    size: {
+     height: _calculateTransformationY(chartheight),
+     //height: chartheight,
+     width: _calculateTransformationX(chartwidth)
+    },
+    padding: {
+      bottom: _calculateTransformationY(20)
+    },
     data: {
 
       columns: [
@@ -78,7 +86,7 @@ var chart = c3.generate({
 
 };
 
-/*_calculateTransformationX = function (width){
+_calculateTransformationX = function (width){
 
     return ($(window).width()*(width/100));
 },
@@ -86,7 +94,7 @@ var chart = c3.generate({
 _calculateTransformationY = function (height){
 
     return ($(window).height()*(height/100));
-};*/
+};
 
 
 that.init = init;

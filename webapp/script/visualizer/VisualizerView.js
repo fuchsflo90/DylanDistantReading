@@ -14,6 +14,8 @@ Visualizer.VisualizerView = function(){
 	var barcolor = null;
 	var anchor = null;
 
+    var wholedylancorpus = false;
+
 	var init = function(){
 		initClickAndChangeEvents();
 		initializeViewScripts();
@@ -74,16 +76,21 @@ Visualizer.VisualizerView = function(){
 		});
 
 		$("#methodselector").change(function() {
+            if(wholedylancorpus){
+                $("#referencecorpusselector option[value='dylan_int']").attr('selected',true);
+            }
             $(".mbutton").removeClass("active");
             $("#methodselector option:selected").addClass("active");
 
             if($("#methodselector option:selected").attr("value") == "significant_text_differences"){
                 $(".viewselector2").addClass("hide");
                 $("#posselector").removeClass("hide");
+                $("#corpusselector").removeClass("hide");
             }
             if($("#methodselector option:selected").attr("value") == "ngrams"){
                 $(".viewselector2").removeClass("hide");
                 $("#posselector").addClass("hide");
+                $("#corpusselector").addClass("hide");
             }
 
     		$(that).trigger("reload");
@@ -110,6 +117,29 @@ Visualizer.VisualizerView = function(){
 		});
 
         $("#timeselector").change(function() {
+            if($("#timeselector option:selected").prop("value") == "1960-2019"){
+                wholedylancorpus = true;
+                $("#referencecorpusselector option[value='dylan_anc']").prop('selected',true);
+                $("#referencecorpusselector").prop("disabled", true);
+                $("#referencecorpusselector").css({ opacity: 0.8 });
+                console.log("alles gewählt");
+
+            }else{
+                wholedylancorpus = false;
+                $("#referencecorpusselector option[value='dylan_int']").attr('selected',true);
+                $("#referencecorpusselector").prop("disabled", false);
+                $("#referencecorpusselector").css({ opacity: 1.0 });
+                console.log("nicht alles gewählt");
+            }
+
+            $(that).trigger("reload");
+        });
+
+        $("#authorselector").change(function() {
+            $(that).trigger("reload");
+        });
+
+        $("#referencecorpusselector").change(function() {
             $(that).trigger("reload");
         });
 
@@ -169,8 +199,8 @@ Visualizer.VisualizerView = function(){
     	testcloud = DiscourseAnalysis.TestCloud;
     	testcloud.init(40, 40);
 
-    	corporainfoview = DiscourseAnalysis.CorporaInfoView;
-		corporainfoview.init("./meta/metainfo.json");
+    	/*corporainfoview = DiscourseAnalysis.CorporaInfoView;
+		corporainfoview.init("./meta/metainfo.json");*/
 
 		chartview = DiscourseAnalysis.ChartView;
 		chartview.init();
@@ -201,18 +231,6 @@ Visualizer.VisualizerView = function(){
 		datamanager = DiscourseAnalysis.Datamanager;
 		datamanager.init(300);
 
-		/*datamanager.readFile('../meta/nationalratswahlen.csv', function(data){ 
-        	electionsview.init(datamanager.returnFile());
-        	electionsview.generateElectionsChart();
-    	});
-
-    	datamanager.readFile('../meta/testwords.csv', function(data){ 
-    		testtable.init(data, '#sampletable');
-    	});
-
-    	datamanager.readFile('../meta/testwords.csv', function(data){ 
-        	testcloud.generateCloud(data, '#testcloud');
-    	});*/
 	};
 
 	var generateView = function(path){
