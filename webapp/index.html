@@ -27,6 +27,11 @@
                 <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Baumkarte" id="s3">Baumkarte</button>
                 <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Wortwolke" id="s2">Wortwolke</button>
             </div>
+            <span>Textautor:</span>
+            <select id="authorselector">
+                <option id="authordylan" style="font-weight:bold" value="authordylan" class="mbutton" selected>Bob Dylan</option>
+                <option id="authorall" class="mbutton" value="authorall">Alle</option>
+            </select>
 
             <select class="smallmenu" id="posselector">
                     <option class="smallbutton pos active" id="w1" value="all_words" selected>Alle Tokens</option>
@@ -45,12 +50,18 @@
         <div class="timesettings">
             <span>Untersuchtes Subkorpus</span>
             <select id="timeselector">
+                <option value="1960-2019">Gesamte Schaffenszeit</span>
                 <option value="1960-1969" selected>1960er Jahre</span>
                 <option value="1970-1979">1970er Jahre</span>
                 <option value="1980-1989">1980er Jahre</span>
                 <option value="1990-1999">1990er Jahre</span>
                 <option value="2000-2009">2000er Jahre</span>
                 <option value="2010-2019">2010er Jahre</span>
+            </select>
+            <span>Referenzkorpus</span>
+            <select id="referencecorpusselector">
+                <option value="bobdylan" selected>Bob Dylan</span>
+                <option value="oanc">OANC</span>
             </select>
         </div>
         <div class="menu viewselector2 hide" id="menu_ngram">

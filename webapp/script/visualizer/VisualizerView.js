@@ -113,6 +113,14 @@ Visualizer.VisualizerView = function(){
             $(that).trigger("reload");
         });
 
+        $("#authorselector").change(function() {
+            $(that).trigger("reload");
+        });
+
+        $("#referencecorpusselector").change(function() {
+            $(that).trigger("reload");
+        });
+
 		$('#s5').click(function() {
 
     		$('#png_img').attr("width", $('#chart0').width() + $('#chart1').width());
@@ -169,8 +177,8 @@ Visualizer.VisualizerView = function(){
     	testcloud = DiscourseAnalysis.TestCloud;
     	testcloud.init(40, 40);
 
-    	corporainfoview = DiscourseAnalysis.CorporaInfoView;
-		corporainfoview.init("./meta/metainfo.json");
+    	/*corporainfoview = DiscourseAnalysis.CorporaInfoView;
+		corporainfoview.init("./meta/metainfo.json");*/
 
 		chartview = DiscourseAnalysis.ChartView;
 		chartview.init();
