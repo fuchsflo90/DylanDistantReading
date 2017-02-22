@@ -35,7 +35,7 @@ Visualizer.VisualizerController = function(){
 		filepath = "file not found";
    
     	if ($('.mbutton.active').attr('value') == "significant_text_differences") {
-        	filepath = "./data/" + $('#timeselector option:selected').attr('value') + "/words/dylan_int/stopwords_True" + "/significant_text_differences/" + $('#posselector option:selected').attr('value') + ".csv";
+        	filepath = "./data/" + $('#timeselector option:selected').attr('value') + "/words/" + $('#referencecorpusselector option:selected').attr('value') + "/stopwords_True" + "/significant_text_differences/" + $('#posselector option:selected').attr('value') + ".csv";
     	}
 
     	if ($('.mbutton.active').attr('value') == "ngrams") {

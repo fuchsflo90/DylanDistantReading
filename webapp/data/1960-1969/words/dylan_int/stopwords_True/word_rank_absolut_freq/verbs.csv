@@ -3,6 +3,7 @@ WORD,RANK,
 'm,158
 know,127
 come,115
+re,111
 got,111
 say,107
 said,95
@@ -11,6 +12,7 @@ ai,86
 see,83
 go,74
 want,72
+ve,52
 die,52
 tell,52
 make,49
@@ -23,7 +25,6 @@ feel,38
 walk,37
 look,37
 tri,32
-doe,29
 hear,27
 put,27
 keep,25
@@ -298,4 +299,3 @@ tire,3
 charg,3
 disappear,3
 suppos,3
-laid,3

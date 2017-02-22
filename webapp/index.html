@@ -17,8 +17,9 @@
             </div>
         </div>
         <div class="mainmenu">
+            <span>Analysemethode:</span>
             <select id="methodselector">
-                <option id="freq_profiling" style="font-weight:bold" value="significant_text_differences" class="mbutton" selected>Korpusvergleich mit Log-Likelihood-Methode</option>
+                <option id="freq_profiling" value="significant_text_differences" class="mbutton" selected>Korpusvergleich mit Log-Likelihood-Methode</option>
                 <option id="ngrams" class="mbutton" value="ngrams">N-Gramme</option>
             </select>
 
@@ -27,12 +28,12 @@
                 <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Baumkarte" id="s3">Baumkarte</button>
                 <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Wortwolke" id="s2">Wortwolke</button>
             </div>
-            <span>Textautor:</span>
-            <select id="authorselector">
-                <option id="authordylan" style="font-weight:bold" value="authordylan" class="mbutton" selected>Bob Dylan</option>
+            <span class="hide">Textautor:</span>
+            <select id="authorselector" class="hide">
+                <option id="authordylan" value="authordylan" class="mbutton" selected>Bob Dylan</option>
                 <option id="authorall" class="mbutton" value="authorall">Alle</option>
             </select>
-
+            <span>Wortart:</span>
             <select class="smallmenu" id="posselector">
                     <option class="smallbutton pos active" id="w1" value="all_words" selected>Alle Tokens</option>
                     <option class="smallbutton pos" id="w2" value="nouns">Nomen</option>
@@ -58,11 +59,13 @@
                 <option value="2000-2009">2000er Jahre</span>
                 <option value="2010-2019">2010er Jahre</span>
             </select>
-            <span>Referenzkorpus</span>
-            <select id="referencecorpusselector">
-                <option value="bobdylan" selected>Bob Dylan</span>
-                <option value="oanc">OANC</span>
-            </select>
+            <span id="corpusselector">
+                <span>Referenzkorpus</span>
+                <select id="referencecorpusselector">
+                    <option value="dylan_int" selected>Bob Dylan</option>
+                    <option value="dylan_anc">OANC</option>
+                </select>
+            </span>
         </div>
         <div class="menu viewselector2 hide" id="menu_ngram">
             <!--<span>Minimale Frequenz</span>
