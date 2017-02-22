@@ -18,15 +18,15 @@ class CorpusText(object):
         ext_stopwords = CorpusText._read_external_stopwords()
         english_stopwords = nltk.corpus.stopwords.words('english')
         special_chars = (',', '.', '!', '?', ':', ';', '\xe2\x80\x94', '€', '$', '(', ')', '#', '|', "'", '"','`', '´')
-        text = [(a,b) for (a,b) in text if a not in ext_stopwords]
-        text = [(a,b) for (a,b) in text if a not in english_stopwords]
+        text = [(a,b) for (a,b) in text if a.lower() not in ext_stopwords]
+        text = [(a,b) for (a,b) in text if a.lower() not in english_stopwords]
         text = [(a,b) for (a,b) in text if a not in special_chars]
         return text
 
     @staticmethod
     def pos_rank_absolut_freq(stopwords, corpus_name, text, postag, filename, path_property):
-        if stopwords:
-            text = CorpusText._apply_stopwords(text)
+        #if stopwords:
+        #    text = CorpusText._apply_stopwords(text)
         if postag == '':
             freq = nltk.FreqDist(
                 element[0] for element in text)
@@ -34,8 +34,8 @@ class CorpusText(object):
             freq = nltk.FreqDist(element[0] for element in text if element[1] != None and element[1].startswith(postag))
         freq = list(freq.items())
         freq.sort(key=lambda tup: tup[1], reverse=True)
-        from CSVwriter import CSVwriter
-        CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq, filename, path_property)
+        #from CSVwriter import CSVwriter
+        #CSVwriter.write_words_rank("word_rank_absolut_freq", corpus_name, stopwords, 300, "words", freq, filename, path_property)
         return freq
 
     @staticmethod

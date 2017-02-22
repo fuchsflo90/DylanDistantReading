@@ -68,8 +68,8 @@ class NgramFinder:
     @staticmethod
     def _find_ngrams(type, text, corpus_name, method, maxhits, minhits, stopwordfilter, path_property):
         methodname = method.__name__
-        if stopwordfilter:
-            text = CorpusText._apply_stopwords(text)
+        #if stopwordfilter:
+        #    text = CorpusText._apply_stopwords(text)
         print("...Erstelle CollocationFinder-Objekt fuer Typ {" + type + ", " + methodname + "}...")
         finder = NgramFinder._create_finder(type, text)
         finder.apply_freq_filter(minhits)

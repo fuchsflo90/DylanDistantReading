@@ -27,97 +27,112 @@ def main():
     reader.parse_file()
 
     # **********************************Untersuchungsintervalle v. Dylans Werk******************************************#
-    # intervalls = [(1960, 1970), (1971, 1980), (1981, 1990), (1991, 2000), (2001, 2020)]
 
-    year_start = 2010
-    year_end = 2019
+    dylanIsOnlyAuthor = True
+    allAuthors = False
+    intervalls = [(1960, 2019, dylanIsOnlyAuthor), (1960, 1969, dylanIsOnlyAuthor), (1970, 1979, dylanIsOnlyAuthor),
+                  (1980, 1989, dylanIsOnlyAuthor), (1990, 1999, dylanIsOnlyAuthor), (2000, 2009, dylanIsOnlyAuthor),
+                  (2010, 2019, dylanIsOnlyAuthor),
+                  (1960, 2019, allAuthors), (1960, 1969, allAuthors), (1970, 1979, allAuthors), (1980, 1989, allAuthors),
+                  (1990, 1999, allAuthors), (2000, 2009, allAuthors), (2010, 2019, allAuthors)
+                  ]
+    #intervalls = [(1960, 2019)]
 
-
-    path_property = str(year_start) + '-' + str(year_end)
-
-    # *****************************************Erstelle Untersuchungskorpora********************************************#
-    corpora = reader.select_taggedsongs_from_author("Bob Dylan", year_start, year_end)
-    untersuchungsbereich = corpora[0]
-    kontrollbereich = corpora[1]
-    #print(untersuchungsbereich)
-    #kontrollbereich = reader.select_taggedsongs_from_author("Bob Dylan", year_end + 1, YEAR_END_CORPUS)
-    # kontrollbereich = nltk.word_tokenize(kontrollbereich)
-
-    # *************************************Erstelle Metafinormationen zu den Korpora************************************#
-    length_a = CorpusText.count_tokens(untersuchungsbereich)
-    length_b = CorpusText.count_tokens(kontrollbereich)
-    # print("Anzahl der Tokens des Untersuchungskorpus: " + str(length_a))
-    # print("Anzahl der Tokens des Untersuchungskorpus: " + str(len(CorpusText.pos_rank_absolut_freq(False, "dylan_int", untersuchungsbereich, "", "test"))))
-    # print("Anzahl der Tokens des Vergleichskorpus: " + str(length_b))
-
-    # ******Stoppwortliste: JA
-    fredDist_a = CorpusText.pos_rank_absolut_freq(True, "dylan_int", untersuchungsbereich, "", 'all_words',
-                                                  path_property)
-    fredDist_b = CorpusText.pos_rank_absolut_freq(True, "dylan_rest", kontrollbereich, "", 'all_words', path_property)
-
-    difvals = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_b, length_a, length_b)
-    CSVwriter.write_text_differences("significant_text_differences", "dylan_int", True, 300, "words", difvals,
-                                     'all_words', path_property)
-    # vice versa
-    # difvals = CorpusText.calculate_significant_word_differences(fredDist_b, fredDist_a,
-    #                                                     length_a, length_b)
-    # CSVwriter.write_text_differences("significant_text_differences", "dylan_rest", True, 300, "words", difvals, 'all_words', path_property)
-
-    # print([token[0] for token in untersuchungsbereich])
-
-    #*****************************************************Dylan vs. OANC **********************************************#
-    #*************************************************** + LEMMATISIERUNG + *******************************************#
-
-    #st = LancasterStemmer()
+    #st = SnowballStemmer("english", ignore_stopwords=True)
     st = SnowballStemmer("english")
-    untersuchungsbereich_lem = [ ( (st.stem(a)) ,b) for (a,b) in untersuchungsbereich ]
-    n_lexems_dylan = CorpusText.count_tokens(untersuchungsbereich_lem)
-    #print(str( n_lexems_dylan ) + " vs. " + str(length_a))
-    #print(untersuchungsbereich_lem)
-    fredDist_lem = CorpusText.pos_rank_absolut_freq(True, "dylan_int", untersuchungsbereich_lem, "", 'all_words',
-                                                  path_property)
 
-    fredDist_anc = FileReader.read_ANC_file(anc_all_count, 1, 3)
-    #print(fredDist_anc)
-    total_anc_words = sum(val[1] for val in fredDist_anc)
-    difvals = CorpusText.calculate_significant_word_differences(fredDist_lem, fredDist_anc,  n_lexems_dylan, total_anc_words)
-    CSVwriter.write_text_differences("significant_text_differences", "dylan_anc", True, 300, "words", difvals,
-                                     'all_words', path_property)
+    for decade in intervalls:
 
-    # ******************************************************************************************************************#
+        year_start = decade[0]
+        year_end = decade[1]
+        authorship = decade[2]
 
-    # Signifikante Unterschiede der Worthäufigkeiten (Wortartenfilterung)
-    args = [('NN', 'nouns'), ('NNP', 'proper_nouns'), ('VB', 'verbs'), ('JJ', 'adjectives')]
+        path_spec = ""
+        if authorship == True:
+            path_spec = "dylan_"
+        if authorship == False:
+            path_spec = "all_"
 
-    for arg in args:
-        # with stopwords
-        fredDist_a = CorpusText.pos_rank_absolut_freq(True, "dylan_int", untersuchungsbereich, arg[0], arg[1],
+        path_property = str(year_start) + '-' + str(year_end)
+
+        # *****************************************Erstelle Untersuchungskorpora********************************************#
+        corpora = reader.select_taggedsongs_from_author(authorship, year_start, year_end)
+
+
+        #print(corpora[1])
+        print("Anzahl der Tokens des Untersuchungskorpus: " + str(len(corpora[0])))
+        print("Anzahl der Tokens des Kontrollkorpus: " + str(len(corpora[1])))
+
+        untersuchungsbereich = CorpusText._apply_stopwords([ ( (st.stem(a)) ,b) for (a,b) in corpora[0] ])
+        kontrollbereich = CorpusText._apply_stopwords([ ( (st.stem(a)) ,b) for (a,b) in corpora[1] ])
+
+        # *************************************Erstelle Metafinormationen zu den Korpora************************************#
+        length_a = CorpusText.count_tokens(untersuchungsbereich)
+        length_b = CorpusText.count_tokens(kontrollbereich)
+
+        # ******Stoppwortliste: JA
+        fredDist_a = CorpusText.pos_rank_absolut_freq(True, path_spec + "int", untersuchungsbereich, "", 'all_words',
                                                       path_property)
-        fredDist_b = CorpusText.pos_rank_absolut_freq(True, "dylan_rest", kontrollbereich, arg[0], arg[1],
+        fredDist_b = CorpusText.pos_rank_absolut_freq(True, path_spec + "rest", kontrollbereich, "", 'all_words', path_property)
+
+        difvals = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_b, length_a, length_b)
+        CSVwriter.write_text_differences("significant_text_differences", path_spec + "int", True, 300, "words", difvals,
+                                         'all_words', path_property)
+
+        #*****************************************************Dylan vs. OANC **********************************************#
+        #*************************************************** + LEMMATISIERUNG + *******************************************#
+
+        #st = LancasterStemmer()
+        #st = SnowballStemmer("english")
+        #untersuchungsbereich_lem = [ ( (st.stem(a)) ,b) for (a,b) in untersuchungsbereich ]
+
+        n_lexems_dylan = CorpusText.count_tokens(untersuchungsbereich)
+        #print(str( n_lexems_dylan ) + " vs. " + str(length_a))
+        #print(untersuchungsbereich_lem)
+        fredDist_lem = CorpusText.pos_rank_absolut_freq(True, path_spec + "int", untersuchungsbereich, "", 'all_words',
                                                       path_property)
-        difvals2 = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_b, length_a, length_b)
-        CSVwriter.write_text_differences("significant_text_differences", "dylan_int", True, 300, "words", difvals2,
-                                         arg[1], path_property)
-        #print(length_a)
-    # Signifikanzvergleich zum OANC (lemmatisiert)
-        fredDist_lem = CorpusText.pos_rank_absolut_freq(True, "dylan_int", untersuchungsbereich_lem, arg[0], arg[1],
-                                                        path_property)
 
-        difvals = CorpusText.calculate_significant_word_differences(fredDist_lem, fredDist_anc, n_lexems_dylan,
-                                                                    total_anc_words)
-        CSVwriter.write_text_differences("significant_text_differences", "dylan_anc", True, 300, "words", difvals,
-                                         arg[1], path_property)
+        fredDist_anc = FileReader.read_ANC_file(anc_all_count, 1, 3)
+        #print(fredDist_anc)
+        total_anc_words = sum(val[1] for val in fredDist_anc)
+        difvals = CorpusText.calculate_significant_word_differences(fredDist_lem, fredDist_anc,  n_lexems_dylan, total_anc_words)
+        CSVwriter.write_text_differences("significant_text_differences", path_spec + "anc", True, 300, "words", difvals,
+                                         'all_words', path_property)
 
-        # vice versa
-        # difvals2 = CorpusText.calculate_significant_word_differences(fredDist_b, fredDist_a, length_b, length_a)
-        # CSVwriter.write_text_differences("significant_text_differences", "dylan_rest", True, 300, "words", difvals2, arg[1], path_property)
+        # ******************************************************************************************************************#
 
-    # ******************************************************Finde N-Gramme**********************************************#
-    # *****************************************************!!!!ACHTUNG!!!!**********************************************#
-    # *****************************Berechungszeit kann unter Umständen sehr lange dauern!!!*****************************#
-    # Details siehe Klasse NgramFinder
-    NgramFinder.find(untersuchungsbereich, "dylan_int", path_property)
-    # NgramFinder.find(corpus_b, name_b)
+        # Signifikante Unterschiede der Worthäufigkeiten (Wortartenfilterung)
+        args = [('NN', 'nouns'), ('NNP', 'proper_nouns'), ('VB', 'verbs'), ('JJ', 'adjectives')]
+
+        for arg in args:
+            # with stopwords
+            fredDist_a = CorpusText.pos_rank_absolut_freq(True, path_spec + "int", untersuchungsbereich, arg[0], arg[1],
+                                                          path_property)
+            fredDist_b = CorpusText.pos_rank_absolut_freq(True, path_spec + "rest", kontrollbereich, arg[0], arg[1],
+                                                          path_property)
+            difvals2 = CorpusText.calculate_significant_word_differences(fredDist_a, fredDist_b, length_a, length_b)
+            CSVwriter.write_text_differences("significant_text_differences", path_spec + "int", True, 300, "words", difvals2,
+                                             arg[1], path_property)
+            #print(length_a)
+        # Signifikanzvergleich zum OANC (lemmatisiert)
+            fredDist_lem = CorpusText.pos_rank_absolut_freq(True, path_spec + "int", untersuchungsbereich, arg[0], arg[1],
+                                                            path_property)
+
+            difvals = CorpusText.calculate_significant_word_differences(fredDist_lem, fredDist_anc, n_lexems_dylan,
+                                                                        total_anc_words)
+            CSVwriter.write_text_differences("significant_text_differences", path_spec + "anc", True, 300, "words", difvals,
+                                             arg[1], path_property)
+
+            # vice versa
+            # difvals2 = CorpusText.calculate_significant_word_differences(fredDist_b, fredDist_a, length_b, length_a)
+            # CSVwriter.write_text_differences("significant_text_differences", "dylan_rest", True, 300, "words", difvals2, arg[1], path_property)
+
+        # ******************************************************Finde N-Gramme**********************************************#
+        # *****************************************************!!!!ACHTUNG!!!!**********************************************#
+        # *****************************Berechungszeit kann unter Umständen sehr lange dauern!!!*****************************#
+        # Details siehe Klasse NgramFinder
+        NgramFinder.find(untersuchungsbereich, path_spec + "int", path_property)
+        # NgramFinder.find(corpus_b, name_b)
 
 if __name__ == '__main__':
     print('This program is being run by itself')
