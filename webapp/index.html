@@ -11,7 +11,7 @@
 	</head>
 
 	<body>
-    <div id="wrapper">
+    <div id="wrapper" class="container-fluid">
         <div id="header">
             <div class="info well" id="heading">
                 <h1>Eine Distant-Reading-Analye der Songtexte von Bob Dylan aus den Jahren 1963 bis 2016</h1>
@@ -105,8 +105,10 @@
                 </select>
             </span>
         </div>
-        <div id="contentwrapper">
-        	<div id="chartwrapper">
+        <div id="contentwrapper" class="row-fluid">
+
+        	<div id="chartwrapper" class="col-lg-12">
+        	<h1>Daten</h1>
             	<div class="chart data" id="chart0"></div>
             	<div class="chart data" id="chart1"></div>
             	<div id="pngurl1" class="hide"></div>
@@ -115,12 +117,52 @@
         	</div>
 
         	<!-- unnötig -->
-            <div class="maincontent" id="overview"></div>
+            <div class="maincontent col-lg-9 well" id="overview">
 
+            <h1>Timeline</h1>
+            	        <div class="timeline">
+<ul>
+<li class="firstItem">
+<div><time>2004</time>&nbsp;<span style="font-size: 10pt; line-height: 107%; font-family: Helvetica, sans-serif;">Gründung in Billigheim durch Klaus Ramge.&nbsp;Das Produktportfolio besteht aus 3 DameWare-Produkten von DameWare LLC.</span></div>
+</li>
+<li>
+<div><time>2011</time>&nbsp;<span style="font-size: 10pt; line-height: 107%; font-family: Helvetica, sans-serif;">SolarWinds kauft DameWare LLC. Durch die neue Partnerschaft wächst das Produktspektrum auf 30 High-End Produkte.</span></div>
+</li>
+<li>
+<div><time>2012</time>&nbsp;<span style="font-size: 10pt; line-height: 107%; font-family: Helvetica, sans-serif;">Andreas Toth tritt als CEO und Sales Engineer ein und bringt gemeinsam mit Eva Toth das operative Geschäft der RamgeSoft anteilig nach Regensburg.</span></div>
+</li>
+<li>
+<div><time>2015 </time><span style="font-size: 10pt; line-height: 107%; font-family: Helvetica, sans-serif;">Erweiterung des Produktportfolios um ausgewählte Hersteller und hauseigene Dienstleistungen (Workshops, Consulting, Service, Schulungen u. v. m.).</span></div>
+</li>
+<li class="lastItem">
+<div><time>2016</time> <span style="font-size: 10pt; line-height: 107%; font-family: Helvetica, sans-serif;">Übernahme des Unternehmens durch Eva und Andreas Toth von Klaus Ramge. Im Zuge dieser Änderung wird der Hauptsitz nach Regensburg verlegt.</span></div>
+</li>
+</ul>
+<p>Besser, weil responsive: <a href="http://d2d3qesrx8xj6s.cloudfront.net/iframe/k7KxQ">http://d2d3qesrx8xj6s.cloudfront.net/iframe/k7KxQ</a></p>
+</div>
+            </div>
+                    <div class="jumbotron col-lg-3 well">
+  <h1>Biographie</h1>
+  <p>...</p>
+  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+</div>
+
+  <div class="jumbotron col-lg-3 well">
+  <h1>Politik</h1>
+  <p>...</p>
+  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+</div>
+
+  <div class="col-lg-3 well">
+  <blockquote>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+  <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+</blockquote>
+</div>
                  
         </div>
-        <div id="footer">
-            <div class="info well">
+        <div id="footer" class="row-fluid col-lg-12 well">
+            <div class="info">
                 <span id="cpright">© 2017 Colin Sippl, Florian Fuchs</span>
             </div>
         </div>

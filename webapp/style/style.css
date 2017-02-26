@@ -30,3 +30,72 @@ h1{
 .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
     max-width: 350px;
 }
+
+/** TIMELINE https://webdesign.tutsplus.com/tutorials/building-a-vertical-timeline-with-css-and-a-touch-of-javascript--cms-26528**/
+.timeline ul li {
+  list-style-type: none;
+  position: relative;
+  width: 0.25vh;
+  margin: 0 auto;
+  padding-top: 3%;
+  /*background: rgba(131, 158, 187, 1); */
+  background: #eaa642;
+}
+ 
+.timeline ul li::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.timeline ul li div {
+  position: relative;
+  bottom: 0;
+  width: 400px;
+  padding: 15px;
+  border-width: 0.25vh;
+  border-style: solid;
+  border-color: #81a6cc; 
+  border-radius: 0.5vh;
+  background: none;
+  /*background-color: #81a6cc;*/
+}
+ 
+.timeline ul li div::before {
+  content: '';
+  position: absolute;
+  bottom: 7px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.timeline ul li:nth-child(odd) div {
+  left: 45px;
+}
+ 
+.timeline ul li:nth-child(odd) div::before {
+  left: -17px;
+  border-width: 8px 16px 8px 0;
+  border-color: transparent #81a6cc transparent transparent;
+}
+
+.timeline ul li:nth-child(even) div {
+  left: -475px;
+}
+ 
+.timeline ul li:nth-child(even) div::before {
+  right: -17px;
+  border-width: 8px 0 8px 16px;
+  border-color: transparent transparent transparent #81a6cc;
+}
+
+.timeline time {
+	font-weight: bold;
+}
