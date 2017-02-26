@@ -14,8 +14,6 @@ Visualizer.VisualizerView = function(){
 	var barcolor = null;
 	var anchor = null;
 
-    var wholedylancorpus = false;
-
 	var init = function(){
 		initClickAndChangeEvents();
 		initializeViewScripts();
@@ -57,7 +55,7 @@ Visualizer.VisualizerView = function(){
             console.log("button wurde gedrückt");
 
     		if ($(this).attr('id') == 's4'){
-         		window.open(path);
+                $(that).trigger("downloadcsv");
         		return;
     		}
     		if ($(this).attr('id') == 's5'){
@@ -75,26 +73,52 @@ Visualizer.VisualizerView = function(){
     		$(that).trigger("reload");
 		});
 
-		$("#methodselector").change(function() {
+		/*$("#methodselector").change(function() {
             if(wholedylancorpus){
-                $("#referencecorpusselector option[value='dylan_int']").attr('selected',true);
+                $("#referencecorpusselector option[value='_int']").attr('selected',true);
             }
             $(".mbutton").removeClass("active");
             $("#methodselector option:selected").addClass("active");
 
             if($("#methodselector option:selected").attr("value") == "significant_text_differences"){
                 $(".viewselector2").addClass("hide");
-                $("#posselector").removeClass("hide");
+                $(".posmenu").removeClass("hide");
                 $("#corpusselector").removeClass("hide");
             }
             if($("#methodselector option:selected").attr("value") == "ngrams"){
                 $(".viewselector2").removeClass("hide");
-                $("#posselector").addClass("hide");
+                $(".posmenu").addClass("hide");
                 $("#corpusselector").addClass("hide");
             }
 
     		$(that).trigger("reload");
-		});
+		});*/
+
+        $("#methodselector").change(function() {
+            
+            $(".mbutton").removeClass("active");
+            $("#methodselector option:selected").addClass("active");
+
+            if($("#methodselector option:selected").attr("value") == "significant_text_differences"){
+                $(".viewselector2").addClass("hide");
+                $(".posmenu").removeClass("hide");
+                $("#corpusselector2 button").prop("disabled",false);
+            }
+
+            if($("#timeselector option:selected").prop("value") == "1960-2019"){
+                $("#corpusselector2 button").removeClass("active");
+                $("#corpusselector2 button[value='_anc']").addClass("active");
+                $("#corpusselector2 button").prop("disabled",true);
+            }
+
+            if($("#methodselector option:selected").attr("value") == "ngrams"){
+                $(".viewselector2").removeClass("hide");
+                $(".posmenu").addClass("hide");
+                $("#corpusselector2 button").prop("disabled",true);
+            }
+            $('.selectpicker').selectpicker();
+            $(that).trigger("reload");
+        });
 
 		$("#lengthselector").change(function() {
     		$(that).trigger("reload");
@@ -116,19 +140,38 @@ Visualizer.VisualizerView = function(){
     		$(that).trigger("reload");
 		});
 
-        $("#timeselector").change(function() {
+       /* $("#timeselector").change(function() {
             if($("#timeselector option:selected").prop("value") == "1960-2019"){
                 wholedylancorpus = true;
-                $("#referencecorpusselector option[value='dylan_anc']").prop('selected',true);
+                $("#referencecorpusselector option[value='_anc']").prop('selected',true);
                 $("#referencecorpusselector").prop("disabled", true);
                 $("#referencecorpusselector").css({ opacity: 0.8 });
                 console.log("alles gewählt");
 
             }else{
                 wholedylancorpus = false;
-                $("#referencecorpusselector option[value='dylan_int']").attr('selected',true);
+                $("#referencecorpusselector option[value='_int']").attr('selected',true);
                 $("#referencecorpusselector").prop("disabled", false);
                 $("#referencecorpusselector").css({ opacity: 1.0 });
+                console.log("nicht alles gewählt");
+            }
+
+            $(that).trigger("reload");
+        });*/
+
+        $("#timeselector").change(function() {
+            if($("#methodselector option:selected").attr("value") == "ngrams"){
+                $(that).trigger("reload");
+                return;
+            }
+            if($("#timeselector option:selected").prop("value") == "1960-2019"){
+                $("#corpusselector2 button").removeClass("active");
+                $("#corpusselector2 button[value='_anc']").addClass("active");
+                $("#corpusselector2 button").prop("disabled",true);
+                console.log("alles gewählt");
+
+            }else{
+                $("#corpusselector2 button").prop("disabled",false);
                 console.log("nicht alles gewählt");
             }
 
@@ -140,6 +183,12 @@ Visualizer.VisualizerView = function(){
         });
 
         $("#referencecorpusselector").change(function() {
+            $(that).trigger("reload");
+        });
+
+        $("#corpusselector2 button").click(function() {
+            $("#corpusselector2 button").removeClass("active");
+            $(this).addClass("active");
             $(that).trigger("reload");
         });
 
@@ -188,19 +237,11 @@ Visualizer.VisualizerView = function(){
 	};
 
 	var initializeViewScripts = function(){
-		parliamentview = DiscourseAnalysis.ParliamentView;
-		parliamentview.init();
-		parliamentview.generateParliament();
-
-		electionsview = DiscourseAnalysis.ElectionsView;
 
     	testtable = DiscourseAnalysis.Table;
 
     	testcloud = DiscourseAnalysis.TestCloud;
     	testcloud.init(40, 40);
-
-    	/*corporainfoview = DiscourseAnalysis.CorporaInfoView;
-		corporainfoview.init("./meta/metainfo.json");*/
 
 		chartview = DiscourseAnalysis.ChartView;
 		chartview.init();
@@ -251,7 +292,7 @@ Visualizer.VisualizerView = function(){
     	if ($(".viewselectorbutton.active").attr('id') == 's6') {
         	$("#s5").addClass('unable').css("pointer-events", "none");
         	$(anchor).append('<h3 class="tableheading">Quelldatei: ' + path + '</h3>')
-        	$(anchor).append('<table id="' + anchor.slice(1) + '_table' + '" class="valtable"><tr><th></th><th></th><th></th></tr></table>');
+        	$(anchor).append('<table id="' + anchor.slice(1) + '_table' + '" class="table table-striped"><tr><th>Rang</th><th>Token</th><th>Wert</th></tr></table>');
         	datamanager.readFile(path, function(data){ 
             	tableview.init(data, anchor + '_table');
         	});
@@ -274,9 +315,9 @@ Visualizer.VisualizerView = function(){
     	anchor = '#chart0';
 	};
 
-	$( window ).resize(function() {
+	/*$( window ).resize(function() {
     	$(that).trigger("reload");
-	});
+	});*/
 
 	that.init = init;
 	that.generateView = generateView;

@@ -39,7 +39,8 @@ return frequency_list;
 //http://www.niemanlab.org/2011/10/word-clouds-considered-harmful/
 			
 _makeWordcloud = function (data){
-    cloud = d3.layout.cloud().size([_calculateTransformationX(width)*1.2, _calculateTransformationY(height)*1.2])
+    cloud = d3.layout.cloud()
+            .size([_calculateTransformationX(width)*1.2, _calculateTransformationY(height)*1.2])
             .words(data)
             .rotate(0)
             .fontSize(function(ds) { return ds.size; })
