@@ -13,155 +13,400 @@
 	<body>
     <div id="wrapper" class="container-fluid">
         <div id="header">
+            <div class="headmenu">
+                <div class="btn-group navbar-right well" role="group" id="contentselector">
+                    <button type="button" class="btn btn-default active" value="1">Hintergrund</button>
+                    <button type="button" class="btn btn-default" value="2">Analyse</button>
+                </div>
+            </div>
             <div class="info well" id="heading">
                 <h1>Eine Distant-Reading-Analye der Songtexte von Bob Dylan aus den Jahren 1963 bis 2016</h1>
             </div>
         </div>
-        <div class="mainmenu well">
-            <span>Analysemethode:</span>
-            <select id="methodselector" class="selectpicker">
-                <option id="freq_profiling" value="significant_text_differences" class="mbutton" selected>Signifikanztest (Log-Likelihood)</option>
-                <option id="ngrams" class="mbutton" value="ngrams">N-Gramme</option>
-            </select>
-
-            <div class="btn-group viewselector1" role="group">
-                <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Diagramm" id="s1">
-                    <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                    Diagramm
-                </button>
-                <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Baumkarte" id="s3">
-                    <span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>
-                    Baumkarte
-                </button>
-                <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Wortwolke" id="s2">
-                    <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
-                    Wortwolke
-                </button>
-                <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Tabellenansicht" id="s6">
-                    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
-                    Tabelle
-                </button>
-            </div>
-            <span>Referenzkorpus:</span>
-            <div class="btn-group" role="group" id="corpusselector2">
-                <button type="button" class="btn btn-default active" value="_int">Bob Dylan</button>
-                <button type="button" class="btn btn-default" value="_anc">OANC</button>
-            </div>
-            <div class="btn-group navbar-right" role="group">
-                <button type="button" class="btn btn-default viewselectorbutton" title="CSV-Datei herunterladen (Datenquelle)" id="s4">
-                    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
-                    Download CSV
-                </button>
-                <button type="button" class="btn btn-default viewselectorbutton hide" title="PNG-Bild herunterladen" id="s5">Download PNG</button>
-            </div>
-        </div>
-        <div class="timesettings well">
-            <span class="">Textautor:</span>
-            <select id="authorselector" class="selectpicker">
-                <option id="authordylan" value="dylan" class="mbutton" selected>Bob Dylan</option>
-                <option id="authorall" class="mbutton" value="all">Alle</option>
-            </select>
-            <span>Subkorpus:</span>
-            <select id="timeselector" class="selectpicker">
-                <option value="1960-2019">Gesamte Schaffenszeit</option>
-                <option value="1960-1969" selected>1960er Jahre</option>
-                <option value="1970-1979">1970er Jahre</option>
-                <option value="1980-1989">1980er Jahre</option>
-                <option value="1990-1999">1990er Jahre</option>
-                <option value="2000-2009">2000er Jahre</option>
-                <option value="2010-2019">2010er Jahre</option>
-                <option value="1960-1964">Becoming Bob Dylan (1960-1964)</option>
-                <option value="1965-1966">Electric Dylan (1965-1966)</option>
-                <option value="1967-1967">Rural Glory (1967)</option>
-                <option value="1968-1973">Take Me As I Am (1968-1973)</option>
-                <option value="1974-1978">Back in the Rain (1974-1978)</option>
-                <option value="1978-1981">The Changing of the Guard (1978-1981)</option>
-                <option value="1983-1990">Rock and Roll Dreams (1983-1990)</option>
-                <option value="1989-1997">Good Enough for Now (1989-1997)</option>
-                <option value="2000-2012">Bob Dylan Revisited (2000-2012)</option>
-
-            </select>
-            <span class="posmenu">Wortart:</span>
-            <select class="smallmenu posmenu selectpicker" id="posselector">
-                    <option class="smallbutton pos active" id="w1" value="all_words" selected>Alle Tokens</option>
-                    <option class="smallbutton pos" id="w2" value="nouns">Nomen</option>
-                    <option class="smallbutton pos" id="w4" value="proper_nouns">Eigennamen</option>
-                    <option class="smallbutton pos" id="w5" value="adjectives">Adjektive</option>
-                    <option class="smallbutton pos" id="w9" value="verbs">Verben</option>
-            </select>
-            <span class="menu viewselector2 hide" id="menu_ngram">
-                <span>Methode:</span>
-                    <select id="testselector" class="selectpicker">
-                    <option value="chi_sq" selected>Chi-Quadrat-Test</option>
-                    <option value="jaccard">Jaccard-Test</option>
-                    <option value="poisson_stirling">Poisson-Stirling-Test</option>
-                    <option value="likelihood_ratio">Likelihood-Ratio-Test</option>
-                    <option value="pmi">Pointwise-Mutual-Information Test</option>
-                </select>
-                <span>N-Gramm-Länge:</span>
-                <select id="lengthselector" class="selectpicker">
-                    <option value="2-gram" selected>Bigramme</option>
-                    <option value="3-gram">Trigramme</option>
-                </select>
-            </span>
-        </div>
         <div id="contentwrapper" class="row-fluid">
+        	<div id="chartwrapper" class="col-md-12 well">
 
-        	<div id="chartwrapper" class="col-lg-12">
-        	<h1>Daten</h1>
-            	<div class="chart data" id="chart0"></div>
+                <div class="mainmenu well">
+                    <span>Analysemethode:</span>
+                    <select id="methodselector" class="selectpicker">
+                        <option id="freq_profiling" value="significant_text_differences" class="mbutton" selected>Signifikanztest (Log-Likelihood)</option>
+                        <option id="ngrams" class="mbutton" value="ngrams">N-Gramme</option>
+                    </select>
+
+                    <div class="btn-group viewselector1" role="group">
+                        <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Diagramm" id="s1">
+                            <span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                            Diagramm
+                        </button>
+                        <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Baumkarte" id="s3">
+                            <span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>
+                            Baumkarte
+                        </button>
+                        <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Wortwolke" id="s2">
+                            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
+                            Wortwolke
+                        </button>
+                        <button type="button" class="btn btn-default viewselectorbutton" title="Erzeuge Tabellenansicht" id="s6">
+                            <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                            Tabelle
+                        </button>
+                    </div>
+                    <span>Referenzkorpus:</span>
+                    <div class="btn-group" role="group" id="corpusselector2">
+                        <button type="button" class="btn btn-default active" value="_int">Bob Dylan</button>
+                        <button type="button" class="btn btn-default" value="_anc">OANC</button>
+                    </div>
+                    <div class="btn-group navbar-right" role="group">
+                        <button type="button" class="btn btn-default viewselectorbutton" title="CSV-Datei herunterladen (Datenquelle)" id="s4">
+                            <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                            Download CSV
+                        </button>
+                        <button type="button" class="btn btn-default viewselectorbutton hide" title="PNG-Bild herunterladen" id="s5">Download PNG</button>
+                    </div>
+                </div>
+                <div class="timesettings well">
+                    <span class="">Textautor:</span>
+                    <select id="authorselector" class="selectpicker">
+                        <option id="authordylan" value="dylan" class="mbutton" selected>Bob Dylan</option>
+                        <option id="authorall" class="mbutton" value="all">Alle</option>
+                    </select>
+                    <span>Subkorpus:</span>
+                    <select id="timeselector" class="selectpicker">
+                        <option value="1960-2019">Gesamte Schaffenszeit</option>
+                        <option value="1960-1969" selected>1960er Jahre</option>
+                        <option value="1962-1985">1962-1985</option>
+                        <option value="1970-1979">1970er Jahre</option>
+                        <option value="1980-1989">1980er Jahre</option>
+                        <option value="1990-1999">1990er Jahre</option>
+                        <option value="2000-2009">2000er Jahre</option>
+                        <option value="2010-2019">2010er Jahre</option>
+                        <option value="1960-1964">Becoming Bob Dylan (1960-1964)</option>
+                        <option value="1965-1966">Electric Dylan (1965-1966)</option>
+                        <option value="1967-1967">Rural Glory (1967)</option>
+                        <option value="1968-1973">Take Me As I Am (1968-1973)</option>
+                        <option value="1974-1978">Back in the Rain (1974-1978)</option>
+                        <option value="1978-1981">The Changing of the Guard (1978-1981)</option>
+                        <option value="1983-1990">Rock and Roll Dreams (1983-1990)</option>
+                        <option value="1989-1997">Good Enough for Now (1989-1997)</option>
+                        <option value="2000-2012">Bob Dylan Revisited (2000-2012)</option>
+                    </select>
+                    <span class="posmenu">Wortart:</span>
+                    <select class="smallmenu posmenu selectpicker" id="posselector">
+                            <option class="smallbutton pos active" id="w1" value="all_words" selected>Alle Tokens</option>
+                            <option class="smallbutton pos" id="w2" value="nouns">Nomen</option>
+                            <option class="smallbutton pos" id="w4" value="proper_nouns">Eigennamen</option>
+                            <option class="smallbutton pos" id="w5" value="adjectives">Adjektive</option>
+                            <option class="smallbutton pos" id="w9" value="verbs">Verben</option>
+                    </select>
+                    <span class="menu viewselector2 hide" id="menu_ngram">
+                        <span>Methode:</span>
+                            <select id="testselector" class="selectpicker">
+                            <option value="chi_sq" selected>Chi-Quadrat-Test</option>
+                            <option value="jaccard">Jaccard-Test</option>
+                            <option value="poisson_stirling">Poisson-Stirling-Test</option>
+                            <option value="likelihood_ratio">Likelihood-Ratio-Test</option>
+                            <option value="pmi">Pointwise-Mutual-Information Test</option>
+                        </select>
+                        <span>N-Gramm-Länge:</span>
+                        <select id="lengthselector" class="selectpicker">
+                            <option value="2-gram" selected>Bigramme</option>
+                            <option value="3-gram">Trigramme</option>
+                        </select>
+                    </span>
+                </div>
+
+                <div class="chart data" id="chart0"></div>
             	<div class="chart data" id="chart1"></div>
             	<div id="pngurl1" class="hide"></div>
             	<div id="pngurl2" class="hide"></div>
             	<canvas id="png_img" class="hide"></canvas>
         	</div>
 
-        	<!-- unnötig -->
-            <div class="maincontent col-lg-9 well" id="overview">
+            <div id="infowrapper" class="maincontent" id="overview">
+            	<div class="timelinecontainer col-md-8">
+                    <ul class="timeline">
+                        <li><div class="tldate">Becoming Bob Dylan <br> 1960-1964</div></li>
+                        <li>
+                            <!--<div class="tl-circ"></div>-->
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> 1960</small></p>
+                                    <p>Erste Auftritte unter dem Namen Bob Dylan in Folk-Clubs in Dinkytown.</p>
+                                </div>
+                            </div>
+                        </li>
 
-            <h1>Timeline</h1>
-            	        <div class="timeline">
-<ul>
-<li class="firstItem">
-<div><time>2004</time>&nbsp;<span style="font-size: 10pt; line-height: 107%; font-family: Helvetica, sans-serif;">Gründung in Billigheim durch Klaus Ramge.&nbsp;Das Produktportfolio besteht aus 3 DameWare-Produkten von DameWare LLC.</span></div>
-</li>
-<li>
-<div><time>2011</time>&nbsp;<span style="font-size: 10pt; line-height: 107%; font-family: Helvetica, sans-serif;">SolarWinds kauft DameWare LLC. Durch die neue Partnerschaft wächst das Produktspektrum auf 30 High-End Produkte.</span></div>
-</li>
-<li>
-<div><time>2012</time>&nbsp;<span style="font-size: 10pt; line-height: 107%; font-family: Helvetica, sans-serif;">Andreas Toth tritt als CEO und Sales Engineer ein und bringt gemeinsam mit Eva Toth das operative Geschäft der RamgeSoft anteilig nach Regensburg.</span></div>
-</li>
-<li>
-<div><time>2015 </time><span style="font-size: 10pt; line-height: 107%; font-family: Helvetica, sans-serif;">Erweiterung des Produktportfolios um ausgewählte Hersteller und hauseigene Dienstleistungen (Workshops, Consulting, Service, Schulungen u. v. m.).</span></div>
-</li>
-<li class="lastItem">
-<div><time>2016</time> <span style="font-size: 10pt; line-height: 107%; font-family: Helvetica, sans-serif;">Übernahme des Unternehmens durch Eva und Andreas Toth von Klaus Ramge. Im Zuge dieser Änderung wird der Hauptsitz nach Regensburg verlegt.</span></div>
-</li>
-</ul>
-<p>Besser, weil responsive: <a href="http://d2d3qesrx8xj6s.cloudfront.net/iframe/k7KxQ">http://d2d3qesrx8xj6s.cloudfront.net/iframe/k7KxQ</a></p>
-</div>
-            </div>
-                    <div class="jumbotron col-lg-3 well">
-  <h1>Biographie</h1>
-  <p>...</p>
-  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-</div>
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Januar 1961</small></p>
+                                    <p>Ankunft in New York City und diverse Treffen mit Woody Guthrie.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>März 1962</small></p>
+                                    <p>Veröffentlichung des Albums <i>Bob Dylan</i>.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>August 1963</small></p>
+                                    <p>Martin Luther Kings Rede "I have a dream".</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>November 1963</small></p>
+                                    <p>John F. Kennedy wird ermordet.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Januar 1964</small></p>
+                                    <p>Die Beatles veröffentlichen ihr Album <i>Meet the Beatles!</i> in den USA.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Juli 1964</small></p>
+                                    <p>Der <i>Civil Rights Act</i> von 1964 tritt in Kraft.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Juli 1964</small></p>
+                                    <p>Auftritt auf dem Newport Folk Festival.</p>
+                                </div>
+                            </div>
+                        </li>
 
-  <div class="jumbotron col-lg-3 well">
-  <h1>Politik</h1>
-  <p>...</p>
-  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-</div>
+                        <li><div class="tldate">Electric Dylan <br> 1965-1966</div></li>
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Juli 1965</small></p>
+                                    <p>Elektrisch verstärkter Auftritt auf dem Newport Folk Festival. Empörung unter den Folk-Fans.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>August 1965</small></p>
+                                    <p>Veröffentlichung des Albums <i>Highway 61 Revisited</i> mit dem Song <i>Like a Rolling Stone</i>.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Juli 1966</small></p>
+                                    <p>Motorradunfall - die folgenden Auftritte werden abgesagt.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li><div class="tldate">Rural Glory <br> 1967</div></li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>April 1967</small></p>
+                                    <p>Große Protestmärsche gegen den Vietnamkrieg.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>August 1967</small></p>
+                                    <p>Das Jimi Hendrix Experience Debutalbum <i>Are you Experienced?</i> wird in den USA veröffentlicht.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li><div class="tldate">Take Me As I Am <br> 1968-1973</div></li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>April 1968</small></p>
+                                    <p>Martin Luther King wird ermordet.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Juni 1968</small></p>
+                                    <p>Robert Kennedy wird ermordet. In New York starten erste Bewegungen für die Rechte von Homosexuellen.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>August 1969</small></p>
+                                    <p>Woodstock Festival.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>April 1970</small></p>
+                                    <p>Paul McCartney gibt die Auflösung der Beatles bekannt.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>September 1970</small></p>
+                                    <p>Jimi Hendrix stirbt.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Juni 1972</small></p>
+                                    <p>Die Watergate Affäre.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>März 1973</small></p>
+                                    <p>Die letzten amerikanischen Soldaten werden aus Vietnam abgezogen.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Juli 1973</small></p>
+                                    <p>Dylan veröffentlicht <i>Knockin' on Heaven's Door</i>.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li><div class="tldate">Back in the Rain <br> 1974-1978</div></li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>April 1975</small></p>
+                                    <p>Mit dem Fall von Saigon endet der Vietnam-Krieg.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li><div class="tldate">The Changing of the Guard <br> 1978-1981</div></li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Dezember 1979</small></p>
+                                    <p>Die UDSSR marschiert in Afghanistan ein.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Dezember 1980</small></p>
+                                    <p>John Lennon wird ermordet.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>August 1981</small></p>
+                                    <p>MTV geht auf Sendung.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>März 1982</small></p>
+                                    <p>Dylan wird in die <i>Songwriter's Hall of Fame</i> aufgenommen.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li><div class="tldate">Rock and Roll Dreams <br> 1983-1990</div></li>
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Januar 1988</small></p>
+                                    <p>Dylan wird in die <i>Rock and Roll Hall of Fame</i> aufgenommen.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>November 1989</small></p>
+                                    <p>Fall der Berliner Mauer.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li><div class="tldate">Good Enough for Now <br> 1989-1997</div></li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>August 1990</small></p>
+                                    <p>Der Irak fällt in Kuwait ein. Der Golfkrieg beginnt.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Dezember 1991</small></p>
+                                    <p>Auflösung der Sowjetunion.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Mai 1992</small></p>
+                                    <p>Mit der Belagerung von Sarajevo beginnt der verheerendste Konflikt in Europa seit dem Zweiten Weltkrieg.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Februar 1994</small></p>
+                                    <p>Die NATO interveniert im bosnischen Bürgerkrieg.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Februar 1996</small></p>
+                                    <p>Ende der Belagerung von Sarajevo.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li><div class="tldate">Bob Dylan Revisited <br> 2000-2012</div></li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>September 2001</small></p>
+                                    <p>Terroranschläge auf das <i>World Trade Center</i> in New York und das Pentagon.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Oktober 2001</small></p>
+                                    <p>Die USA marschieren in Afghanistan ein.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>November 2001</small></p>
+                                    <p>George Harrison stirbt.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>März-Mai 2003</small></p>
+                                    <p>Ein US-geführtes Bündnis marschiert im Irak ein.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>September 2003</small></p>
+                                    <p>Johnny Cash stirbt.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Dezember 2003</small></p>
+                                    <p>Saddam Hussein wird gefangen genommen.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Oktober 2004</small></p>
+                                    <p>Dylan veröffentlicht die Autobiografie <i>Chronicles, Vol. 1</i> und <i>Lyrics, 1962-2001</i>.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-panel">
+                                <div class="tl-body">
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Dezember 2006</small></p>
+                                    <p>Saddam Hussein wird hingerichtet.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Dezember 2008</small></p>
+                                    <p>Weltwirtschaftskrise.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Dezember 2010</small></p>
+                                    <p>Start des Arabischen Frühlings.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Mai 2011</small></p>
+                                    <p>Osama Bin Laden wird von US-amerikanischen Spezialkräften getötet.</p>
+                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>Dezember 2011</small></p>
+                                    <p>Offizielles Ende des Irak-Kriegs.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
-  <div class="col-lg-3 well">
-  <blockquote>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-  <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
-</blockquote>
-</div>
-                 
+                <div class="jumbotron col-md-4">
+                    <p><img src="images/bob_dylan.jpg" alt="Bob Dylan"></p>
+                </div>
+
+                <div class="col-md-4">
+                    <blockquote>
+                        <p>We live in a political world<br>Love don't have any place<br>We're living in times where men commit crimes<br>Any crime don't have a face</p>
+                        <footer>Bob Dylan in <cite title="Source Title"><i>Political World (1989)</i></cite></footer>
+                    </blockquote>
+                </div> 
+
+                <div class="col-md-4">
+                    <blockquote>
+                        <p>Born into the first generation of rock and rollers, [Bob Dylan] has marked time with his changing times since his first public perfomance in 1960. [...] His music often critiques forms of complacency and intolerance without mentioning a social ill or an institutional abuse by name. But because he first appeared in Greenwich Village at the start of the 1960s and melted right into the spirit of those times - a decade when protest was the conspicuous function of folk and rock music - many felt Dylan was their sympathizer.</p>
+                        <footer>Scott Calhoun in <cite title="Source Title"><i>Bob Dylan American Troubadour</i>, S. ix</cite></footer>
+                    </blockquote>
+                </div> 
+
+                <div class="jumbotron col-md-4">
+                    <h4></h4>
+                    <p>Die hier dargestellte epochale Einteilung von Dylans Schaffensphasen bezieht sich auf jene nach Donald Brown in <i>Bob Dylan American Troubadour</i>.</p>
+                    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+                </div>
+
+                <div class="jumbotron col-md-4">
+                    <h3>Biographie</h3>
+                    <p>...</p>
+                    <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+                </div>
+
+            </div>         
         </div>
-        <div id="footer" class="row-fluid col-lg-12 well">
+        <div id="footer" class="row-fluid col-md-12">
             <div class="info">
                 <span id="cpright">© 2017 Colin Sippl, Florian Fuchs</span>
             </div>

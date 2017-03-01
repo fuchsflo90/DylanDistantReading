@@ -14,6 +14,8 @@ Visualizer.VisualizerView = function(){
 	var barcolor = null;
 	var anchor = null;
 
+    var content = "1";
+
 	var init = function(){
 		initClickAndChangeEvents();
 		initializeViewScripts();
@@ -192,6 +194,13 @@ Visualizer.VisualizerView = function(){
             $(that).trigger("reload");
         });
 
+        $("#contentselector button").click(function() {
+            $("#contentselector button").removeClass("active");
+            $(this).addClass("active");
+            content = $(this).attr("value");
+            $(that).trigger("reload");
+        });
+
 		$('#s5').click(function() {
 
     		$('#png_img').attr("width", $('#chart0').width() + $('#chart1').width());
@@ -278,6 +287,13 @@ Visualizer.VisualizerView = function(){
 
 		datamanager = DiscourseAnalysis.Datamanager;
 		datamanager.init(300);
+
+        $("#contentwrapper > div").addClass("hide");
+
+        switch(content){
+            case '1': $("#infowrapper").removeClass("hide"); break;
+            case '2': $("#chartwrapper").removeClass("hide"); break;
+        }
     
     	if ($(".viewselectorbutton.active").attr('id') == 's1') {
         	datamanager.readFile(path, function(data){ 
