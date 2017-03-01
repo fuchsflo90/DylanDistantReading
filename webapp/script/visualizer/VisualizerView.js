@@ -289,11 +289,6 @@ Visualizer.VisualizerView = function(){
 		datamanager.init(300);
 
         $("#contentwrapper > div").addClass("hide");
-
-        switch(content){
-            case '1': $("#infowrapper").removeClass("hide"); break;
-            case '2': $("#chartwrapper").removeClass("hide"); break;
-        }
     
     	if ($(".viewselectorbutton.active").attr('id') == 's1') {
         	datamanager.readFile(path, function(data){ 
@@ -312,17 +307,21 @@ Visualizer.VisualizerView = function(){
         	datamanager.readFile(path, function(data){ 
             	tableview.init(data, anchor + '_table');
         	});
-        	return;
+        	/*return;*/
     	}
     	if ($(".viewselectorbutton.active").attr('id') == 's3') {
         	$("#partei_both").addClass('unable').css("pointer-events", "none");
         	datamanager.readFile(path, function(data){ 
             	treemapview.generateTreemap(data, anchor);
         	});
-        	return;
+        	/*return;*/
     	}
     	$("#s5").removeClass('unable').css("pointer-events", "auto");
-    	$("#partei_both").removeClass('unable').css("pointer-events", "auto");
+
+        switch(content){
+            case '1': $("#infowrapper").removeClass("hide"); break;
+            case '2': $("#chartwrapper").removeClass("hide"); break;
+        }
 	};
 
 	var clearChart = function(){
