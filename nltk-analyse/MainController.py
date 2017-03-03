@@ -71,6 +71,13 @@ def main():
         (2000, 2012, allAuthors),
 
         # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        # Wissolik, R. D., McGrath, S., & Colaianne, A. J. (1994). Bob Dylan’s words:
+        # a critical dictionary and commentary. Greensburg, PA: Eadmer Press.
+
+        (1962, 1985, dylanIsOnlyAuthor),
+        (1962, 1985, allAuthors),
+
+        # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         # Gesamtkorpus 1960 bis Gegenwart
         (1960, 2019, dylanIsOnlyAuthor),
         (1960, 2019, allAuthors),

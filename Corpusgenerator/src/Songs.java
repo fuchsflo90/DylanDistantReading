@@ -12,6 +12,7 @@ public class Songs {
 
 		public void newSong(String title, String text, String date, String album, String author, String filePath){
 			int songId = songs.size()+1;
+			title = title.replaceAll("\\n", "");
 			songs.add(new Song(songId, title, text, date, album, author, filePath));
 		}
 
@@ -50,18 +51,33 @@ public class Songs {
 			return songs.get(i).getFilePath();
 		}
 		
+		public boolean isInList(String title){
+			
+			title = title.toLowerCase();
+			
+			for (int i=0; i < songs.size(); i++){
+				
+				
+				if (songs.get(i).title.toLowerCase().contains(title) ){
+					System.out.println("DUPLIKAT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111111einseinself");
+					return true;
+				}
+			}
+			
+			return false;
+		}
 		
-		class Song {
+		private class Song {
 			
-			int id;
-			String title;
-			String text;
-			String date;
-			String album;
-			String author;
-			String filePath;
+			private int id;
+			private String title;
+			private String text;
+			private String date;
+			private String album;
+			private String author;
+			private String filePath;
 			
-			Song (int id, String title, String text, String date, String album, String author, String filePath){
+			public Song (int id, String title, String text, String date, String album, String author, String filePath){
 				this.id = id;
 				this.title = title;
 				this.text = text;
@@ -69,28 +85,91 @@ public class Songs {
 				this.album = album;
 				this.author = author;
 				this.filePath = filePath;
+				
+				this.title = title.toLowerCase();
+				
+				if (this.title.contains("california")){
+					this.date = "1965";
+				}
+				
+				if (this.title.contains("do re mi")){
+					this.date = "2009";
+				}
+				
+				if (this.title.contains("don't ever take yourself away")){
+					this.date = "1999";
+				}
+				
+				if (this.title.contains("freedom for the stallion")){
+					this.date = "1984";
+				}
+				
+				if (this.title.contains("guess things happen that way (studio outtake)")){
+					this.date = "1969";
+				}
+				
+				if (this.title.contains("hallelujah")){
+					this.date = "1999";
+				}
+				
+				if (this.title.contains("lost highway")){
+					this.date = "1965";
+				}
+				
+				if (this.title.contains("playboys and playgirls")){
+					this.date = "1964";
+				}
+				
+				if (this.title.contains("red cadillac and a black moustache")){
+					this.date = "2001";
+				}
+				
+				if (this.title.contains("roving gambler")){
+					this.date = "1991";
+				}
+				
+				if (this.title.contains("that's alright mama")){
+					this.date = "1995";
+				}
+				
+				if (this.title.contains("train a-travelin'")){
+					this.date = "1962";
+				}
+				
+				if (this.title.contains("waiting for you")){
+					this.date = "2002";
+				}
+				
+				if (this.title.contains("workingman's blues #2 (live)")){
+					this.date = "2070";
+				}
+				
+				if (this.title.contains("you belong to me")){
+					this.date = "1994";
+				}
+				//System.out.println(this.title + ";" + this.date); 
 			}
 			
-			int getId(){
-				return id;
+			public int getId(){
+				return this.id;
 			}
-			String getTitle(){
-				return title;
+			public String getTitle(){
+				return this.title;
 			}
-			String getText(){
-				return text;
+			public String getText(){
+				return this.text;
 			}
-			String getDate(){
-				return date;
+			public String getDate(){
+				return this.date;
 			}
-			String getAlbum(){
-				return album;
+			public String getAlbum(){
+				return this.album;
 			}
-			String getAuthor(){
-				return author;
+			public String getAuthor(){
+				return this.author;
 			}
-			String getFilePath(){
-				return filePath;
+			public String getFilePath(){
+				return this.filePath;
 			}
 		}
 }

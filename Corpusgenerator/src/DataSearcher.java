@@ -77,7 +77,10 @@ public class DataSearcher {
 			}
 			// System.out.println("Der Author: " + author );
 			
+			if (!corpus.isInList(title.toLowerCase()) && !title.equals("")){
+			
 			corpus.newSong(title, text, date, album, author, filePath);
+			}
 		}
 		
 		//TODO

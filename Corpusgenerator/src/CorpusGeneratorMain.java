@@ -23,7 +23,7 @@ public class CorpusGeneratorMain {
 		CorpusGenerator generator = new CorpusGenerator();
 		
 		for (int i = 0; i < reader.anzahlDokumente(); i++) {
-			System.out.println("_____________________Erfasse Dokument " + reader.dateiPfadAusgabe(i) + "..."); 
+			//System.out.println("_____________________Erfasse Dokument " + reader.dateiPfadAusgabe(i) + "..."); 
 			searcher.setDocumentToReadFrom(reader.dokumentAusgabe(i),
 					reader.dateiPfadAusgabe(i));
 			searcher.extractData();

@@ -115,3 +115,12 @@ nltk-analyse/.idea/nltk-analyse.iml
 nltk-analyse/.idea/misc.xml
 
 nltk-analyse/.idea/nltk-analyse.iml
+nltk-analyse/output/
+nltk-analyse/output
+nltk-analyse/output/*
+nltk-analyse/output*
+
+nltk-analyse\output\
+nltk-analyse\output
+nltk-analyse\output\*
+nltk-analyse\output*
