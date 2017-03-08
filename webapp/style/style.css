@@ -1,3 +1,26 @@
+#chart0 .c3-line-VALUE {
+  stroke-width: 2px;
+}
+
+/*
+#chart0 tspan{
+  font-size: 14px;
+  margin-bottom: 5px;}
+  */
+
+#chart0{
+  background-color: #f3f3f3;
+  margin: 0px;
+}
+
+.timesettings, .mainmenu{
+  border-radius: 0;
+}
+
+#chartwrapper{
+  background-color: #333;
+}
+
 #cpright{
 	padding: 10px;
 }
@@ -22,12 +45,6 @@ h1{
 .timesettings{
 	background-color: #fff;
 }
-/*.timesettings>*{
-	margin: 10px;
-}
-.mainmenu>*{
-	margin: 10px;
-}*/
 .viewselector2{
 	margin: 10px;
 }
@@ -251,70 +268,3 @@ img { border: 0; max-width: 100%; }
     left: -14px;
     right: auto;
   }
-
-/** TIMELINE https://webdesign.tutsplus.com/tutorials/building-a-vertical-timeline-with-css-and-a-touch-of-javascript--cms-26528
-.timeline ul li {
-  list-style-type: none;
-  position: relative;
-  width: 0.25vh;
-  margin: 0 auto;
-  padding-top: 3%;
-  background: #eaa642;
-}
- 
-.timeline ul li::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: inherit;
-}
-
-.timeline ul li div {
-  position: relative;
-  bottom: 0;
-  width: 400px;
-  padding: 15px;
-  border-width: 0.25vh;
-  border-style: solid;
-  border-color: #81a6cc; 
-  border-radius: 0.5vh;
-  background: none;
-}
- 
-.timeline ul li div::before {
-  content: '';
-  position: absolute;
-  bottom: 7px;
-  width: 0;
-  height: 0;
-  border-style: solid;
-}
-
-.timeline ul li:nth-child(odd) div {
-  left: 45px;
-}
- 
-.timeline ul li:nth-child(odd) div::before {
-  left: -17px;
-  border-width: 8px 16px 8px 0;
-  border-color: transparent #81a6cc transparent transparent;
-}
-
-.timeline ul li:nth-child(even) div {
-  left: -475px;
-}
- 
-.timeline ul li:nth-child(even) div::before {
-  right: -17px;
-  border-width: 8px 0 8px 16px;
-  border-color: transparent transparent transparent #81a6cc;
-}
-
-.timeline time {
-	font-weight: bold;
-}**/

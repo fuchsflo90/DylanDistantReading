@@ -75,27 +75,6 @@ Visualizer.VisualizerView = function(){
     		$(that).trigger("reload");
 		});
 
-		/*$("#methodselector").change(function() {
-            if(wholedylancorpus){
-                $("#referencecorpusselector option[value='_int']").attr('selected',true);
-            }
-            $(".mbutton").removeClass("active");
-            $("#methodselector option:selected").addClass("active");
-
-            if($("#methodselector option:selected").attr("value") == "significant_text_differences"){
-                $(".viewselector2").addClass("hide");
-                $(".posmenu").removeClass("hide");
-                $("#corpusselector").removeClass("hide");
-            }
-            if($("#methodselector option:selected").attr("value") == "ngrams"){
-                $(".viewselector2").removeClass("hide");
-                $(".posmenu").addClass("hide");
-                $("#corpusselector").addClass("hide");
-            }
-
-    		$(that).trigger("reload");
-		});*/
-
         $("#methodselector").change(function() {
             
             $(".mbutton").removeClass("active");
@@ -141,25 +120,6 @@ Visualizer.VisualizerView = function(){
 		$("#posselector").change(function() {
     		$(that).trigger("reload");
 		});
-
-       /* $("#timeselector").change(function() {
-            if($("#timeselector option:selected").prop("value") == "1960-2019"){
-                wholedylancorpus = true;
-                $("#referencecorpusselector option[value='_anc']").prop('selected',true);
-                $("#referencecorpusselector").prop("disabled", true);
-                $("#referencecorpusselector").css({ opacity: 0.8 });
-                console.log("alles gewählt");
-
-            }else{
-                wholedylancorpus = false;
-                $("#referencecorpusselector option[value='_int']").attr('selected',true);
-                $("#referencecorpusselector").prop("disabled", false);
-                $("#referencecorpusselector").css({ opacity: 1.0 });
-                console.log("nicht alles gewählt");
-            }
-
-            $(that).trigger("reload");
-        });*/
 
         $("#timeselector").change(function() {
             if($("#methodselector option:selected").attr("value") == "ngrams"){
@@ -307,14 +267,12 @@ Visualizer.VisualizerView = function(){
         	datamanager.readFile(path, function(data){ 
             	tableview.init(data, anchor + '_table');
         	});
-        	/*return;*/
     	}
     	if ($(".viewselectorbutton.active").attr('id') == 's3') {
         	$("#partei_both").addClass('unable').css("pointer-events", "none");
         	datamanager.readFile(path, function(data){ 
             	treemapview.generateTreemap(data, anchor);
         	});
-        	/*return;*/
     	}
     	$("#s5").removeClass('unable').css("pointer-events", "auto");
 
@@ -329,10 +287,6 @@ Visualizer.VisualizerView = function(){
     	$("#chart1").empty().removeAttr('class').removeAttr('style').attr('class', 'chart');
     	anchor = '#chart0';
 	};
-
-	/*$( window ).resize(function() {
-    	$(that).trigger("reload");
-	});*/
 
 	that.init = init;
 	that.generateView = generateView;
