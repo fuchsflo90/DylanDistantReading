@@ -21,7 +21,8 @@ import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 public class POST {
 
-	private String taggerModel = "./models/english-bidirectional-distsim.tagger";
+	//private String taggerModel = "./models/english-bidirectional-distsim.tagger";
+	private String taggerModel = "./models/gate-EN-twitter.model";
 	private MaxentTagger tagger = new MaxentTagger(taggerModel);
 	
   public String analyzeSong(String song) throws Exception {

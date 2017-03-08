@@ -66,6 +66,7 @@ class CorpusText(object):
 
     @staticmethod
     def calculate_significant_word_differences(fredDist_a, fredDist_b, tokens_length_a, tokens_length_b):
+        #print(fredDist_b)
         fredDist_b = dict(fredDist_b)
         significant_difference_list = []
         for (a, b) in fredDist_a:

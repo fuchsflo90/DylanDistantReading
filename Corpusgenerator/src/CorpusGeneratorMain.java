@@ -48,7 +48,7 @@ public class CorpusGeneratorMain {
 			} 
 		}
 		
-		generator.generateCorpusFile("Corpus_Dylan" + searcher.getNumberOfSongs() );
+		generator.generateCorpusFile("Corpus_Dylan_Twitter" + searcher.getNumberOfSongs() );
 		
 		System.out.println("VORGANG BEENDET. Das Programm kann nun geschlossen werden.---------------------------");
 

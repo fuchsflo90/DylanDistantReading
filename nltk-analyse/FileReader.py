@@ -3,6 +3,7 @@ __author__ = 'Colin Sippl, Florian Fuchs'
 # lese POS-Korpusdatei
 # http://www.nltk.org/api/nltk.corpus.reader.html
 from nltk.corpus.reader import TaggedCorpusReader
+from collections import defaultdict
 import nltk
 
 class FileReader(object):
@@ -33,9 +34,21 @@ class FileReader(object):
         return nltk.Text(nltk.word_tokenize(self.pos_file))
 
     @staticmethod
-    def read_ANC_file(path, col1, col2):
+    def read_ANC_file(path, lemma, count, postag):
         lines = list()
         with open(path, 'r', encoding="utf8") as tsv:
             for line in tsv:
                 lines.append(line.strip().split('\t'))
-        return [(line[col1], int(line[col2])) for line in lines if len(line) == 3 or len(line) == 4]
+        tuples = [(line[lemma], int(line[count]), line[postag]) for line in lines if len(line) == 3 or len(line) == 4]
+        tuples = [((line[lemma], int(line[count])),line[postag]) for line in lines if len(line) == 3 or len(line) == 4]
+        #d = defaultdict(list)
+        #for lemma, value in tuples:
+        #    if lemma in d:
+        #        d[lemma] = d[lemma] + value
+        #    else:
+        #        d.update({lemma:value})
+        #print(list(d.items())[:500])
+        #return list(d.items())
+        return tuples
+        #return [(line[lemma], int(line[count]), line[postag]) for line in lines if len(line) == 3 or len(line) == 4]
+
