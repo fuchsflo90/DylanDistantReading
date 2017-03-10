@@ -1,5 +1,15 @@
-__author__ = 'Colin Sippl, Florian Fuchs'
 # -*- coding: utf-8 -*-
+"""
+In dieser Klasse findet die Berechnung signifikanter Wörter statt. Das angwendete Verfahren ist der
+Log-Likelihood-Signifikanztest
+
+Rayson, P. and Garside, R. (2000). Comparing corpora using frequency profiling. In proceedings of the workshop
+        on Comparing Corpora, held in conjunction with the 38th annual meeting of the Association for Computational
+        Linguistics (ACL 2000). 1-8 October 2000, Hong Kong, pp. 1 - 6.
+
+        http://ucrel.lancs.ac.uk/people/paul/publications/rg_acl2000.pdf
+"""
+__author__ = 'Colin Sippl, Florian Fuchs'
 import nltk
 import math
 
@@ -18,9 +28,9 @@ class CorpusText(object):
         ext_stopwords = CorpusText._read_external_stopwords()
         english_stopwords = nltk.corpus.stopwords.words('english')
         special_chars = (',', '.', '!', '?', ':', ';', '\xe2\x80\x94', '€', '$', '(', ')', '#', '|', "'", '"','`', '´')
-        text = [(a,b) for (a,b) in text if a.lower() not in ext_stopwords]
-        text = [(a,b) for (a,b) in text if a.lower() not in english_stopwords]
-        text = [(a,b) for (a,b) in text if a not in special_chars]
+        text = [(a.lower(),b) for (a,b) in text if a.lower() not in ext_stopwords]
+        text = [(a.lower(),b) for (a,b) in text if a.lower() not in english_stopwords]
+        text = [(a.lower(),b) for (a,b) in text if a not in special_chars]
         return text
 
     @staticmethod

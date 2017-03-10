@@ -1,5 +1,19 @@
-__author__ = 'Colin Sippl, Florian Fuchs'
 # -*- coding: utf-8 -*-
+"""
+In dieser Klasse findet die Berechnung von n-Grammen statt. Dafür werden so genannte Assoziationsmaße verwendet.
+Eine Übersicht über alle gängigen Assoziationsmaße findet sich bei
+
+    - Evert, S. (2005). The Statistics of Word Cooccurrences Word Pairs and Collocations.
+      Unpublished Doctoral Dissertation Institut Fur Maschinelle Sprachverarbeitung Universitat Stuttgart,
+      98(August 2004), 353. https://doi.org/10.1073/pnas.141413598
+
+    - Manning, C. D., & Schütze, H. (1999). Foundations of Statistical Natural Language Processing.
+      The MIT Press (2nd ed.). Cambridge, Massachusetts.
+
+    - Quasthoff, U., & Wolff, C. (2002). The Poisson Collocation Measure and its Applications.
+      Proc Second International Workshop on Computational Approaches to Collocations Wien, (3).
+"""
+__author__ = 'Colin Sippl, Florian Fuchs'
 from builtins import print
 import nltk
 from CorpusText import CorpusText
@@ -49,10 +63,7 @@ class NgramFinder:
     @staticmethod
     def find(text, corpus_name, path_property):
         for entry in args:
-            # Ignore stopwords
             NgramFinder._find_ngrams(entry[0], text, corpus_name, entry[1], entry[2], min_freq, True, path_property)
-            # Leave stopwords
-            #NgramFinder._find_ngrams(entry[0], text, corpus_name, entry[1], entry[2], min_freq, False)
 
     #http://stackoverflow.com/questions/5512765/removing-punctuation-numbers-from-text-problem
 
@@ -73,9 +84,16 @@ class NgramFinder:
         print("...Erstelle CollocationFinder-Objekt fuer Typ {" + type + ", " + methodname + "}...")
         finder = NgramFinder._create_finder(type, text)
         finder.apply_freq_filter(minhits)
-        from CSVwriter import CSVwriter
         #print(finder.score_ngrams(method))
-        CSVwriter.write_ngrams(methodname, corpus_name, stopwordfilter, minhits, maxhits, 'ngram', finder.score_ngrams(method), path_property)
+        ngrams = finder.score_ngrams(method)
+        # an dieser Stelle werden n-Gramme herausgefiltert, die aus denselben Wörtern bestehen
+        # oder die zwei identische Wörter nacheinander entahlten:
+        # z.B. 'trouble trouble' oder 'knock knock knockin''
+        ngrams[:]= [ngram for ngram in ngrams if ngram[0][0] != ngram[0][1]]
+        if len(ngrams[0][0]) == 3:
+            ngrams[:] = [ngram for ngram in ngrams if ngram[0][1] != ngram[0][2]]
+        from CSVwriter import CSVwriter
+        CSVwriter.write_ngrams(methodname, corpus_name, stopwordfilter, minhits, maxhits, 'ngram', ngrams, path_property)
 
     @staticmethod
     def _read_external_stopwords():
