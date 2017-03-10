@@ -54,14 +54,14 @@ _generateSimpleChart = function(x, y, anchor, barcolor){
         categories: x.slice(1, x.length),
         tick: {
           rotate: -45,
-          multiline: true
+          multiline: false,
         },
       },
       y: {
         show: false
       },
       y2: {
-        show: true
+        show: false
       }
     },
     legend: {

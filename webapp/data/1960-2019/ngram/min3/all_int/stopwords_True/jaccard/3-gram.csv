@@ -23,7 +23,6 @@ play knick-knack paddywhack,0.07722007722007722
 answer whiskey-drinking marine,0.07575757575757576
 jordan rock gibraltar,0.07575757575757576
 warehouse arabian drum,0.07575757575757576
-b. stetson hat,0.07142857142857142
 dot moonbeam pug-nosed,0.07142857142857142
 face cannonball waist,0.07142857142857142
 polka dot moonbeam,0.07142857142857142
@@ -52,7 +51,6 @@ behold looking lo,0.06349206349206349
 frog a-hoppin brook,0.0625
 grand finale tularosa,0.0625
 hayes whiskey-drinking indian,0.06172839506172839
-summertime ah-a summertime,0.06060606060606061
 nightingale tune bird,0.058823529411764705
 drunken hayes answer,0.05813953488372093
 mahatma gandhi martin,0.057971014492753624
@@ -92,10 +90,12 @@ jokerman nightingale bird,0.05
 lamb saved glad,0.05
 lo behold behold,0.05
 lo behold lo,0.05
+summertime strangers meddle,0.05
 drunken ira answer,0.04975124378109453
 driftin shore driftin,0.049586776859504134
 done lay stay,0.04938271604938271
 flame high burn,0.04938271604938271
+supper wedding supper,0.04918032786885246
 creation nature honor,0.049019607843137254
 nature honor forgive,0.049019607843137254
 happen mister jones,0.04861111111111111
@@ -209,12 +209,15 @@ page curtain risin,0.03571428571428571
 rock gibraltar page,0.03571428571428571
 rolling best notify,0.03571428571428571
 simple twist fate,0.03571428571428571
+summertime marry isis,0.03571428571428571
+wedding supper wedding,0.03571428571428571
 angry cry dream,0.03546099290780142
 willie scared way,0.035398230088495575
 agarrame mi vida,0.03508771929824561
 durango agarrame mi,0.03508771929824561
 durango mi vida,0.03508771929824561
 looking lo behold,0.03508771929824561
+pure drown watered-down,0.03508771929824561
 noel born king,0.03488372093023256
 pave paradise parking,0.034722222222222224
 keep rain break,0.034482758620689655
@@ -264,11 +267,8 @@ west jordan rock,0.03205128205128205
 please stop cry,0.032
 loot catch trout,0.031914893617021274
 heaven knock knock,0.031746031746031744
-john b. hat,0.031746031746031744
-john b. stetson,0.031746031746031744
 miss nettie moore,0.031746031746031744
 sentimental angry cry,0.031746031746031744
-supper wedding supper,0.031746031746031744
 change less lay,0.031578947368421054
 instead speak dare,0.031578947368421054
 knock knock knock,0.031578947368421054
@@ -280,6 +280,7 @@ peggy day steal,0.031446540880503145
 buy back beat,0.03125
 buy back grow,0.03125
 countenance call jack-a-roe,0.03125
+eternity summertime marry,0.03125
 odds end odds,0.03125
 light shine light,0.03122497998398719
 hayes anymore whiskey-drinking,0.030864197530864196
@@ -298,4 +299,3 @@ dios vigila horse,0.030303030303030304
 hark herald angel,0.030303030303030304
 henry apple fly,0.030303030303030304
 horse durango agarrame,0.030303030303030304
-man play jingle-jangle,0.030303030303030304
